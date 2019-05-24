@@ -1,0 +1,18 @@
+yandex_auth: 11
+yandex session: 11
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+session: 
