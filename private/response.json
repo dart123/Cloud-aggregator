@@ -1,85 +1,53 @@
-SQL: UPDATE tokens SET token='Udc5ZejdF1AAAAAAAAAAmbw-9vzxqyJqeQGHDRees4gZ4hGC7yZcBKmLzB7n_CZu' WHERE cloud_id='2' AND user_id='13'session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=2 AND session_id=10
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=3 AND session_id=10
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=3 AND session_id=11
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
-yandex session: 10
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
-yandex session: 10
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
-yandex session: 10
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-yandex session: 10
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
-yandex session: 11
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-yandex session: 11
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
-yandex session: 10
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
-yandex session: 11
-session: 
-session: 
-session: 
-session: 
-session: 
-session: 
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
+connection: mysqli Object
+(
+    [affected_rows] => 0
+    [client_info] => mysqlnd 5.0.12-dev - 20150407 - $Id: 38fea24f2847fa7519001be390c98ae0acafe387 $
+    [client_version] => 50012
+    [connect_errno] => 0
+    [connect_error] => 
+    [errno] => 0
+    [error] => 
+    [error_list] => Array
+        (
+        )
+
+    [field_count] => 0
+    [host_info] => localhost via TCP/IP
+    [info] => 
+    [insert_id] => 0
+    [server_info] => 8.0.15
+    [server_version] => 80015
+    [stat] => Uptime: 199401  Threads: 2  Questions: 4631  Slow queries: 0  Opens: 803  Flush tables: 2  Open tables: 382  Queries per second avg: 0.023
+    [sqlstate] => 00000
+    [protocol_version] => 10
+    [thread_id] => 563
+    [warning_count] => 0
+)
+
+connection: mysqli Object
+(
+    [affected_rows] => 0
+    [client_info] => mysqlnd 5.0.12-dev - 20150407 - $Id: 38fea24f2847fa7519001be390c98ae0acafe387 $
+    [client_version] => 50012
+    [connect_errno] => 0
+    [connect_error] => 
+    [errno] => 0
+    [error] => 
+    [error_list] => Array
+        (
+        )
+
+    [field_count] => 0
+    [host_info] => localhost via TCP/IP
+    [info] => 
+    [insert_id] => 0
+    [server_info] => 8.0.15
+    [server_version] => 80015
+    [stat] => Uptime: 199783  Threads: 2  Questions: 4638  Slow queries: 0  Opens: 803  Flush tables: 2  Open tables: 382  Queries per second avg: 0.023
+    [sqlstate] => 00000
+    [protocol_version] => 10
+    [thread_id] => 565
+    [warning_count] => 0
+)
+
+sql: SELECT username FROM sessions WHERE session_id='10'

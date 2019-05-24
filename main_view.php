@@ -1,5 +1,6 @@
 <?php
     require 'vendor/autoload.php';
+    require_once 'private/DBManager.php';
     session_start();
     $result = null;
 ?>
@@ -16,6 +17,8 @@
     <body>
         <div class="container">
             <a href="index.php" class="btn btn-default" style="float:right; margin: 5px">Главная</a>
+            <?php if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1) ?>
+                <p><?php echo get_current_username(get_current_user1()) ?></p>
             <button class="btn_show_files" onclick="LogOut();">Выйти</button>
             <table id="files_table">
                 <thead>

@@ -59,6 +59,7 @@ function close_connection()
 	global $conn;
 	$conn->close();
 }
+//LOGIN///////////////////////////////////////
 function log_out()
 {
     if ( isset( $_COOKIE[session_name()] ) )
@@ -105,6 +106,7 @@ function check_login($email, $password)
     header('Location: ' . filter_var($redirect_url, FILTER_SANITIZE_URL));
     exit;
 }
+//LOGIN///////////////////////////////////////
 function save_file_signatures($files, $cloud)
 {
 	global $conn;
@@ -184,8 +186,40 @@ function create_session($connection, $user_id, $setting_id)
 	$result = $connection->query($sql) or die(mysqli_error($connection));
     return $connection->insert_id;
 }
-function get_current_user1($connection)
+function get_current_username($user_id)
 {
+    global $conn;
+    connect();
+    if ($user_id)
+    {
+        $sql = "SELECT username FROM users WHERE user_id='$user_id'";
+        $result = $conn->query($sql) or die(mysqli_error($conn));
+        $username = array();
+        if ($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                array_push($username, $row);
+            }
+            close_connection();
+            return $username[0]["username"];
+        }
+        else
+        {
+            close_connection();
+            return false;
+        }
+    }
+}
+function get_current_user1($connection=null)
+{
+    if (!$connection)
+    {
+        global $conn;
+        connect();
+        $need_to_disconnect = true;
+        $connection = $conn;
+    }  
     if (isset($_SESSION['session_id']) && $_SESSION['session_id'] != -1)
     {
         $session_id = $_SESSION['session_id'];
@@ -198,10 +232,14 @@ function get_current_user1($connection)
             {
                 array_push($user_id, $row);
             }
+            if ($need_to_disconnect)
+                close_connection();
             return $user_id[0]["user_id"];
         }
         else
         {
+            if ($need_to_disconnect)
+                close_connection();
             return false;
         }
     }
