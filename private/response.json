@@ -1,4 +1,60 @@
-yandex_auth: 11
+SQL: UPDATE tokens SET token='Udc5ZejdF1AAAAAAAAAAmbw-9vzxqyJqeQGHDRees4gZ4hGC7yZcBKmLzB7n_CZu' WHERE cloud_id='2' AND user_id='13'session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=2 AND session_id=10
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=3 AND session_id=10
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=3 AND session_id=11
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
+yandex session: 10
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
+yandex session: 10
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
+yandex session: 10
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+yandex session: 10
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
+yandex session: 11
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
 yandex session: 11
 session: 
 session: 
@@ -7,12 +63,23 @@ session:
 session: 
 session: 
 sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
-sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=
+yandex session: 10
 session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=10
+yandex session: 11
+session: 
+session: 
+session: 
+session: 
+session: 
+session: 
+sql: SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=1 AND session_id=11

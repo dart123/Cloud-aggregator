@@ -66,7 +66,7 @@ function log_out()
     $_SESSION = array();
     session_destroy();
     $redirect_url = "../login.php";
-    $redirect_url = filter_var($redirect_uri, FILTER_SANITIZE_URL);
+    $redirect_url = filter_var($redirect_url, FILTER_SANITIZE_URL);
     echo $redirect_url;
     exit;
 }

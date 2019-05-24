@@ -202,14 +202,12 @@ function BoxUploadFile(form_data) {
     });
 }
 function LogOut() {
-    console.log("response1:"); 
     $.ajax({
         type: "GET",
         url: "../private/DBManager.php?f=logout",
         cache: false,
         success: function(response)
         {
-            console.log("response:" + response); 
             window.location.replace(response);
         },
          error: function(data) {
