@@ -1,12 +1,45 @@
 function openModal() {
   $(".upload-modal").css('display', 'block');
+  //$(".upload-modal").css('visibility', 'visible');
 }
 
 function closeModal() {
-  //$("#upload-status").css('display', 'none');
-  //$("#upload-status").text('');
-  //$("#upload-status").css('color', '');
   $(".upload-modal").css('display', 'none');
+  //$(".upload-modal").css('visibility', 'hidden');
+}
+function openAddCloudModal() {
+  $(".add-cloud-modal").css('display', 'block');
+}
+function closeAddCloudModal() {
+  $(".add-cloud-modal").css('display', 'none');
+  $("#add_cloud_warning").css('display', 'none');
+  $("#clouds_table .selected").removeClass('selected');
+}
+$("#clouds_table tr").click(function(){
+  $(this).addClass('selected').siblings().removeClass('selected');
+});
+function AuthorizeCloud() {
+  var $selected_row = $("#clouds_table .selected");
+  if ($selected_row.length > 0)
+  {
+      var cloud_index = $selected_row.index();
+      console.log(cloud_index);
+      switch (cloud_index)
+      {
+          case 0:
+            YandexDiskAuth();
+            break;
+          case 1:
+            DropboxAuth();
+            break;
+          case 2:
+            BoxAuth();
+            break;
+      }
+      closeAddCloudModal();
+  }
+  else
+    $("#add_cloud_warning").css('display', 'inline');
 }
 function uploadStatus(num) {
   //if (num == 1)
@@ -21,6 +54,8 @@ function uploadStatus(num) {
 $(document).bind("mousedown", function(event) {
   if (!$(event.target).parents(".upload-modal-content").length > 0)
     closeModal();
+  if (!$(event.target).parents(".add-cloud-modal-content").length > 0)
+    closeAddCloudModal();
 });
 $('#btn_add').on('click', function() {
     $('#file_upload').trigger('click');

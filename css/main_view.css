@@ -42,28 +42,35 @@
 #btn_add_cloud {
   width: 50%;
 }
-#files_table {
+#files_table, #clouds_table {
   width: 100%;
   /*grid-column: 2 / span 10;*/
     border-collapse: collapse;
 }
-#files_table th, #files_table td {
+#files_table th, #files_table td, #clouds_table td {
     text-align: center;
 }
-#files_table, th, td {
+#files_table, th, #files_table td, #clouds_table td {
   border: 1px solid black;
 }
+#clouds_table img {
+  margin-top: 5px;
+}
 /*по наведению на ряд*/
-#files_table tr:hover {
+#files_table tr:hover, #clouds_table tr:hover {
   background-color: #e5f1f9;
 }
 /*чтобы не менялся цвет при наведении на выбранный ряд*/
-#files_table .selected:hover
+#files_table .selected:hover, #clouds_table .selected:hover
 {
     background-color: #b3d9ec;
 }
-#files_table .selected {
+#files_table .selected, #clouds_table .selected {
     background-color: #b3d9ec;
+}
+#add_cloud_warning {
+  color: red;
+  display: none;
 }
 .img_col {
     width: 16%;
@@ -82,6 +89,7 @@
     border-left: 1px solid black;
     border-bottom: 1px solid black;
 }*/
+
 td > img {
     max-width: 20%;
     margin: auto;
@@ -133,8 +141,9 @@ td > img {
 }
 
 /* Background */
-.upload-modal {
+.upload-modal, .add-cloud-modal {
   display: none; /* Hidden by default */
+  /*visibility: hidden;*/
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -151,6 +160,13 @@ td > img {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+}
+.add-cloud-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%; /* Could be more or less, depending on screen size */
 }
 .btn_close {
   color: #aaa;

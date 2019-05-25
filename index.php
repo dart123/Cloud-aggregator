@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1)
+    {
+        header("Location: main_view.php");
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>

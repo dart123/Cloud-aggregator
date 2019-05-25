@@ -1,5 +1,10 @@
 <?php
-session_start();
+    session_start();
+    if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1)
+    {
+        header("Location: main_view.php");
+        exit;
+    }
 require_once 'private/DBManager.php';
 
 //if (isset($_SESSION['userSession'])!="") {

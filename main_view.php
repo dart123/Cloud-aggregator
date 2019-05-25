@@ -32,7 +32,7 @@
                     <li><img src="../media/dropbox-icon.svg"></li>
                     <li><img src="../media/box-icon.png"></li>
                 </ul>
-                <button class="btn_show_files" id="btn_add_cloud">Добавить облако</button>
+                <button class="btn_show_files" id="btn_add_cloud" onclick="openAddCloudModal();">Добавить облако</button>
             </div>
             
             <div class="main-box">
@@ -66,6 +66,34 @@
                        <button class="btn_close" onclick="closeModal();">Отмена</button>
                         <input id="file_upload" type="file" name="name"/>
                         <label id="upload-status"/>
+                    </div>
+                </div>
+                
+                <div class="add-cloud-modal">
+                    <div class="add-cloud-modal-content">
+                        <table id="clouds_table">
+                            <tr>
+                                <td>
+                                    <img src="../media/yandexdisk-icon.ico">
+                                    <p>Yandex disk</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="../media/dropbox-icon.svg">
+                                    <p>Dropbox</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="../media/box-icon.png">
+                                    <p>Box.com</p>
+                                </td>
+                            </tr>
+                        </table>
+                       <button id="btn_add" onclick="AuthorizeCloud();">Добавить</button>
+                       <button class="btn_close" onclick="closeAddCloudModal();">Отмена</button>
+                       <span id="add_cloud_warning">Выберите облачное хранилище!</span>
                     </div>
                 </div>
             </div>
