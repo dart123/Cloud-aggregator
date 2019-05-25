@@ -20,6 +20,9 @@ case 'box_download':
 case 'upload_file':
     box_upload_file();
     break;
+case 'delete_file':
+    box_delete_file($_GET['filename'], $_GET['modified']);
+    break;
 }
 function buildMultiPartRequest($ch, $boundary, $fields, $files, $token) {
     $delimiter = '-------------' . $boundary;
@@ -153,7 +156,7 @@ function box_list_folder($token, $path=0)
 function box_download_file($filename)
 {
     global $current_folder;
-    $token = get_token(3); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
+    $token = get_token(3); //1й параметр - облако (3 - box), 2й параметр - пользователь
     if (isset($token)) {
             $folder_contents = box_list_folder($token);
             if ($folder_contents)
@@ -242,6 +245,49 @@ function box_upload_file()
             curl_close($ch);
             echo 'success';
         }
+    }
+}
+function box_delete_file($filename, $modified)
+{
+    global $current_folder;
+    $token = get_token(3); //1й параметр - облако (3 - box)
+    if (isset($token)) {
+            $folder_contents = box_list_folder($token);
+            if ($folder_contents)
+            {
+                $file_found = false;
+                foreach($folder_contents->entries as $value):
+                    if ($value->name == $filename)
+                    {
+                        $delete_id = $value->id;
+                        $file_found = true;
+                        break;
+                    }
+                endforeach;
+                //Если файл найден, отправляем запрос на скачивание
+                if ($file_found == true)
+                {
+                    $header = Array("Authorization: Bearer ".$token);
+                
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, "https://api.box.com/2.0/files/$delete_id");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+                    $result = curl_exec($ch);
+                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+                    if ($httpCode == 204)
+                    {
+                        delete_file($filename, $modified);
+                        $error_status = "204: success";
+                        echo json_encode(array($error_status));
+                    }
+                }
+                else
+                    echo false;
+            }
     }
 }
 ?>

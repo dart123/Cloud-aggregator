@@ -46,7 +46,7 @@ $('#btn_upload_box').on('click', function() {
     form_data.append("file", file);
     BoxUploadFile(form_data);
 });
-$(document).bind("contextmenu", function (event) {
+$("#files_table tbody").contextmenu(function (event) {
     
     // Avoid the real one
     event.preventDefault();

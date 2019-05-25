@@ -59,6 +59,9 @@ function GetFiles(cloud=0) {
                 $("#files_table tbody tr").click(function(){
                     $(this).addClass('selected').siblings().removeClass('selected');    
                 });
+                $("#files_table tbody tr").contextmenu(function(){
+                    $(this).addClass('selected').siblings().removeClass('selected');    
+                });
             }
             else alert("REPONSE FALSE");
 
@@ -80,10 +83,10 @@ function DeleteFile(filename, modified)
                    YandexDiskDeleteFile(filename, modified);
                    break;
                 case '2':
-                    DropboxDeleteFile(filename);
+                    DropboxDeleteFile(filename, modified);
                     break;
                 case '3':
-                    BoxDeleteFile(filename);
+                    BoxDeleteFile(filename, modified);
                     break;
             }
         },
@@ -133,15 +136,26 @@ function DropboxDeleteFile(filename, modified) {
         url: "../private/clouds/Dropbox/dropbox.php?f=delete_file&filename=" + filename + "&modified=" + modified,
         cache: false,
         success: function(response) {
-            //$("#files_table .selected").remove();
-            //response = JSON.parse(response);
-            //if (response.length == 2)
-            //{
-            //    alert(response[0]);
-            //    YandexGetOperationStatus(response[1]);
-            //}
-            //if (response.length == 1)
-            //    alert(response[0]);
+            $("#files_table .selected").remove();
+            response = JSON.parse(response);
+            if (response.length == 1)
+                alert(response[0]);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function BoxDeleteFile(filename, modified) {
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/Box/box.php?f=delete_file&filename=" + filename + "&modified=" + modified,
+        cache: false,
+        success: function(response) {
+            $("#files_table .selected").remove();
+            response = JSON.parse(response);
+            if (response.length == 1)
+                alert(response[0]);
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));

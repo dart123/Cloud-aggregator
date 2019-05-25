@@ -4,6 +4,9 @@
     /*border-top: 1px solid black;
     border-right: 1px solid black;*/
 }
+#logout_btn {
+    /*place-self: end stretch;*/
+}
 #files_table {
     border-collapse: collapse;
 }
@@ -46,7 +49,6 @@ td > img {
     width: 20%;
     margin: auto;
 }
-
 .btn_show_files {
     box-shadow: rgb(39, 104, 115) 0px 10px 14px -7px;
     background: linear-gradient(rgb(89, 155, 179) 5%, rgb(64, 140, 153) 100%) rgb(89, 155, 179);
