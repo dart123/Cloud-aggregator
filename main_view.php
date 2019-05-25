@@ -44,6 +44,7 @@
             <ul class='custom-menu'>
                 <li data-action="download">Скачать файл</li>
                 <li data-action="upload">Загрузить файл</li>
+                <li data-action="delete">Удалить файл</li>
             </ul>
             
             <div class="upload-modal">

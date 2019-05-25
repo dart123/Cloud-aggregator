@@ -86,6 +86,9 @@ $(".custom-menu li").click(function(){
         case "upload":
           openModal();
           break;
+        case "delete":
+          DeleteFile($("#files_table .selected td:nth-child(2)").html(), $("#files_table .selected td:nth-child(4)").html());
+          break;
     }
   
     // Hide it AFTER the action was triggered

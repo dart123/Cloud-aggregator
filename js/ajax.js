@@ -68,6 +68,86 @@ function GetFiles(cloud=0) {
             },
     });
 }
+function DeleteFile(filename, modified)
+{
+    $.ajax({
+        type: "GET",
+        url: "../private/DBManager.php?f=get_file_cloud&filename=" + filename + "&modified=" + modified,
+        cache: false,
+        success: function(response) {
+            switch (response) {
+                case '1':
+                   YandexDiskDeleteFile(filename, modified);
+                   break;
+                case '2':
+                    DropboxDeleteFile(filename);
+                    break;
+                case '3':
+                    BoxDeleteFile(filename);
+                    break;
+            }
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function YandexDiskDeleteFile(filename, modified) {
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/YandexDisk/yandex.php?f=delete_file&filename=" + filename + "&modified=" + modified,
+        cache: false,
+        success: function(response) {
+            $("#files_table .selected").remove();
+            response = JSON.parse(response);
+            if (response.length == 2)
+            {
+                alert(response[0]);
+                YandexGetOperationStatus(response[1]);
+            }
+            if (response.length == 1)
+                alert(response[0]);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function YandexGetOperationStatus(href)
+{
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/YandexDisk/yandex.php?f=get_operation_status&href=" + href,
+        cache: false,
+        success: function(response) {
+           alert(response);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function DropboxDeleteFile(filename, modified) {
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/Dropbox/dropbox.php?f=delete_file&filename=" + filename + "&modified=" + modified,
+        cache: false,
+        success: function(response) {
+            //$("#files_table .selected").remove();
+            //response = JSON.parse(response);
+            //if (response.length == 2)
+            //{
+            //    alert(response[0]);
+            //    YandexGetOperationStatus(response[1]);
+            //}
+            //if (response.length == 1)
+            //    alert(response[0]);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
 function DownloadFile(filename, modified)
 {
     $.ajax({

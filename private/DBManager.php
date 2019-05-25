@@ -165,7 +165,6 @@ function save_file_signatures($files, $cloud)
 				break;
 		}
         $session_id = $_SESSION['session_id'];
-        debug_to_file("session: ", $session_id);
 		$sql = "INSERT INTO filesignatures (filename, lastupdate, filesize, isSplit, isFolder, filetype, cloud_id, session_id)".
 		" VALUES ('$name', $modified, '$size', '0', '$isFolder', '$ext', '$cloud_id' ,'$session_id')";
 		$result = $conn->query($sql) or die(mysqli_error($conn));
@@ -317,15 +316,29 @@ function update_token($new_token, $cloud)
     if ($user_id)
     {
         $sql = "UPDATE tokens SET token='$new_token' WHERE cloud_id='$cloud' AND user_id='$user_id'";
-        $file = fopen(__DIR__."/response.json", 'w');
-        fwrite($file, "SQL: $sql");
-        fclose($file);
         $result = $conn->query($sql) or die(mysqli_error($conn));
         close_connection();
         return true;
     }
     else
         return false;
+}
+function delete_file($filename, $modified)
+{
+    global $conn;
+	connect();
+    if (!$modified)
+        $modified = "null";
+	if ($filename)
+    {
+        $session_id = $_SESSION['session_id'];
+		$sql = "DELETE FROM filesignatures WHERE filename='$filename' AND lastupdate='$modified' AND session_id='$session_id'";
+    }
+	else
+		return false;
+	$result = $conn->query($sql) or die(mysqli_error($conn));
+    close_connection();
+    return true;
 }
 function get_file_cloud($filename, $modified)
 {
@@ -369,7 +382,6 @@ function get_files($cloud)
 		$sql = "SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE cloud_id=$cloud AND session_id=$session_id";
 	else
 		$sql = "SELECT filename, lastupdate, filesize, isSplit, isFolder FROM filesignatures WHERE session_id=$session_id";
-    debug_to_file("sql: $sql");
 	$result = $conn->query($sql) or die(mysqli_error($conn));
 	if ($result->num_rows > 0)
 	{

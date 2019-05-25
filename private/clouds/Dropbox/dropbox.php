@@ -19,6 +19,9 @@ case 'download_file':
 case 'upload_file':
     dropbox_upload_file();
     break;
+case 'delete_file':
+    dropbox_delete_file($_GET['filename'], $_GET['modified']);
+    break;
 }
     
 function dropbox_auth() {
@@ -172,5 +175,65 @@ function dropbox_upload_file()
             echo 'success';
         }
     }
+}
+function dropbox_delete_file($filename, $modified)
+{
+    //global $current_folder;
+    //$token = get_token(2); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
+    //if (isset($token)) {
+    //        $folder_contents = dropbox_list_folder("", $token);
+    //        if ($folder_contents)
+    //        {
+    //            $file_found = false;
+    //            foreach($folder_contents as $value):
+    //                if ($value->name == $filename)
+    //                {
+    //                    $download_path = $value->path_display;
+    //                    $file_found = true;
+    //                    break;
+    //                }
+    //            endforeach;
+    //            //Если файл найден, отправляем запрос на скачивание
+    //            if ($file_found == true)
+    //            {
+    //                $header = Array("Authorization: Bearer ".$token, "Dropbox-API-Arg: ". json_encode(array('path' => $download_path)),
+    //                                "Content-Type: text/plain");
+    //            
+    //                // Выполнение POST-запроса и вывод результата
+    //                $ch = curl_init();
+    //                curl_setopt($ch, CURLOPT_URL, 'https://content.dropboxapi.com/2/files/download');
+    //                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    //                curl_setopt($ch, CURLOPT_POST, true);
+    //                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    //                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    //                $result = curl_exec($ch);
+    //            {
+    //                
+    //                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    //                curl_close($ch);
+    //                $result = json_decode($result);
+    //                // Check the HTTP Status code
+    //                switch ($httpCode) {
+    //                    case 204:
+    //                        delete_file($filename, $modified);
+    //                        $error_status = "204: No content. File or empty folder, deleted.";
+    //                        echo json_encode(array($error_status));
+    //                        break;
+    //                    case 202:
+    //                        delete_file($filename, $modified);
+    //                        $error_status = "202. Accepted. Non-empty folder delete started.";
+    //                        echo json_encode(array($error_status, $result->href));
+    //                        break;
+    //                }
+    //                exit;
+    //            }
+    //            else
+    //            {
+    //                echo false;
+    //                exit;
+    //            }
+    //        }
+    //}
 }
 ?>

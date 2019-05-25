@@ -19,6 +19,12 @@ case 'download_file':
 case 'upload_file':
     yandex_upload_file();
     break;
+case 'delete_file':
+    yandex_delete_file($_GET['filename'], $_GET['modified']);
+    break;
+case 'get_operation_status':
+    yandex_get_operation_status($_GET['href']);
+    break;
 }
 function yandex_auth() {
     $redirect_uri = 'https://oauth.yandex.ru/authorize?response_type=code&client_id='.$GLOBALS['client_id'];
@@ -51,7 +57,6 @@ function callback() {
             $result = curl_exec($ch);
             curl_close($ch);
             $result = json_decode($result);
-            debug_to_file("yandex session: ".$_SESSION['session_id']);
             if (!get_token(1))
                 save_token($result->access_token, 1);
             else
@@ -94,17 +99,15 @@ function yandex_list_folder($path, $token)
 {
     if (isset($token)) {
         $header = Array("Authorization: OAuth ".$token);
-        $opts = array('http' =>
-            array(
-            'method'  => 'GET',
-            'header'  => $header,
-            'ignore_errors' => true,
-            //'content' => $query
-            ) 
-        );
-        $context = stream_context_create($opts);
         $request_uri = "https://cloud-api.yandex.net/v1/disk/resources?path=".urlencode($path)."&limit=50";
-        $result = file_get_contents($request_uri, false, $context);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $request_uri);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        //$context = stream_context_create($opts);
+        //$result = file_get_contents($request_uri, false, $context);
         $result = json_decode($result);
         $embedded = $result->_embedded;
         return $embedded->items;
@@ -178,5 +181,74 @@ function yandex_upload_file()
         }
     }
 }
+function yandex_delete_file($filename, $modified)
+{
+    global $current_folder;
+    $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
+    if (isset($token)) {
+            $folder_contents = yandex_list_folder("/", $token);
+            if ($folder_contents)
+            {
+                $file_found = false;
+                foreach($folder_contents as $value):
+                    if ($value->name == $filename)
+                    {
+                        $delete_path = $value->path;
+                        $file_found = true;
+                        break;
+                    }
+                endforeach;
+                //Если файл найден, отправляем запрос на получение url для скачивания
+                if ($file_found == true)
+                {
+                    $header = array("Authorization: OAuth ".$token);
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, 'https://cloud-api.yandex.net/v1/disk/resources?path='.urlencode($delete_path));//."&permanently=true");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    $result = curl_exec($ch);
+                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+                    $result = json_decode($result);
+                    // Check the HTTP Status code
+                    switch ($httpCode) {
+                        case 204:
+                            delete_file($filename, $modified);
+                            $error_status = "204: No content. File or empty folder, deleted.";
+                            echo json_encode(array($error_status));
+                            break;
+                        case 202:
+                            delete_file($filename, $modified);
+                            $error_status = "202. Accepted. Non-empty folder delete started.";
+                            echo json_encode(array($error_status, $result->href));
+                            break;
+                    }
+                    exit;
+                }
+                else
+                {
+                    echo false;
+                    exit;
+                }
+            }
+    }
+}
+function yandex_get_operation_status($url)
+{
+    $token = get_token(1);
+    if (isset($token)) {
+        $header = Array("Authorization: OAuth ".$token);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        //$context = stream_context_create($opts);
+        //$result = file_get_contents($request_uri, false, $context);
+        $result = json_decode($result);
+        echo $result->status;
+    }
+}
 ?>
-
