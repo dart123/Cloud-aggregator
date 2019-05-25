@@ -16,49 +16,69 @@
     </head>
     <body>
         <div class="container">
-            <a href="index.php" class="btn btn-default" style="float:right; margin: 5px">Главная</a>
-            <?php if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1) ?>
-                <p><?php echo get_current_username(get_current_user1()) ?></p>
-            <button class="btn_show_files" id="logout_btn" onclick="LogOut();">Выйти</button>
-            <table id="files_table">
-                <thead>
-                  <tr>
-                    <th class="img_col"></th>
-                    <th class="name_col">Name</th>
-                    <th class="size_col">Size</th>
-                    <th class="modif_col">Last modified</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <button class="btn_show_files" onclick="YandexDiskAuth();">Авторизоваться в Yandex Disk</button>
-            <button class="btn_show_files" onclick="DropboxAuth();">Авторизоваться в Dropbox</button>
-            <button class="btn_show_files" onclick="BoxAuth();">Авторизоваться в Box</button>
+            <div class="left-menu">
+                <a href="index.php" id="main_view_link">Главная</a>
+            </div>
             
-            <button class="btn_show_files" onclick="GetFiles(1);">Загрузить файлы из Yandex Disk</button>
-            <button class="btn_show_files" onclick="GetFiles(2);">Загрузить файлы из Dropbox</button>
-            <button class="btn_show_files" onclick="GetFiles(3);">Загрузить файлы из Box</button>
-            <button class="btn_show_files" onclick="GetFiles();">Загрузить все файлы</button>
+            <div class="right-menu">
+                <?php if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1) ?>
+                    <p id="username"><?php echo get_current_username(get_current_user1()) ?></p>
+                <button class="btn_show_files" id="logout_btn" onclick="LogOut();">Выйти</button>
+            </div>
+            
+            <div class="side-bar">
+                <ul>
+                    <li><img src="../media/yandexdisk-icon.ico"></li>
+                    <li><img src="../media/dropbox-icon.svg"></li>
+                    <li><img src="../media/box-icon.png"></li>
+                </ul>
+                <button class="btn_show_files" id="btn_add_cloud">Добавить облако</button>
+            </div>
+            
+            <div class="main-box">
+                <table id="files_table">
+                    <thead>
+                      <tr>
+                        <th class="img_col"></th>
+                        <th class="name_col">Name</th>
+                        <th class="size_col">Size</th>
+                        <th class="modif_col">Last modified</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <button class="btn_show_files" onclick="YandexDiskAuth();">Авторизоваться в Yandex Disk</button>
+                <button class="btn_show_files" onclick="DropboxAuth();">Авторизоваться в Dropbox</button>
+                <button class="btn_show_files" onclick="BoxAuth();">Авторизоваться в Box</button>
+                
+                <button class="btn_show_files" onclick="GetFiles(1);">Загрузить файлы из Yandex Disk</button>
+                <button class="btn_show_files" onclick="GetFiles(2);">Загрузить файлы из Dropbox</button>
+                <button class="btn_show_files" onclick="GetFiles(3);">Загрузить файлы из Box</button>
+                <button class="btn_show_files" onclick="GetFiles();">Загрузить все файлы</button>
+                
+                <div class="upload-modal">
+                    <div class="upload-modal-content">
+                       <button id="btn_add">Добавить</button>
+                       <button id="btn_upload_yandex">Загрузить на яндекс</button>
+                       <button id="btn_upload_dropbox">Загрузить на dropbox</button>
+                       <button id="btn_upload_box">Загрузить на box.com</button>
+                       <button class="btn_close" onclick="closeModal();">Отмена</button>
+                        <input id="file_upload" type="file" name="name"/>
+                        <label id="upload-status"/>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <p>Copyright</p>
+            </div>
+        </div>
             
             <ul class='custom-menu'>
                 <li data-action="download">Скачать файл</li>
                 <li data-action="upload">Загрузить файл</li>
                 <li data-action="delete">Удалить файл</li>
             </ul>
-            
-            <div class="upload-modal">
-                <div class="upload-modal-content">
-                   <button id="btn_add">Добавить</button>
-                   <button id="btn_upload_yandex">Загрузить на яндекс</button>
-                   <button id="btn_upload_dropbox">Загрузить на dropbox</button>
-                   <button id="btn_upload_box">Загрузить на box.com</button>
-                    <input id="file_upload" type="file" name="name"/>
-                    <label id="upload-status"/>
-                   <button class="btn close" onclick="closeModal();">Отмена</button>
-                </div>
-            </div>
-        </div>
         
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

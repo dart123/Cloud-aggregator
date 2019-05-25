@@ -1,13 +1,50 @@
-.container {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    /*border-top: 1px solid black;
-    border-right: 1px solid black;*/
+.left-menu{
+  grid-area: left-menu;
+  border-style: solid;
+  text-align: left;
 }
-#logout_btn {
-    /*place-self: end stretch;*/
+.right-menu {
+  grid-area: right-menu;
+  border-style: solid;
+  text-align: right;
+  padding-right: 5px;
+}
+.side-bar {
+  text-align: center;
+  grid-area: sidebar;
+  border-style: solid;
+}
+.side-bar li {
+    list-style-type: none;
+    user-select: none;
+}
+.side-bar li img {
+    max-width:30%; 
+}
+.main-box {
+  grid-area: main;
+  border-style: solid;
+}
+.footer {
+  grid-area: footer;
+  border-style: solid;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "left-menu . right-menu"
+    "sidebar main main"
+    "footer footer footer";
+}
+#btn_add_cloud {
+  width: 50%;
 }
 #files_table {
+  width: 100%;
+  /*grid-column: 2 / span 10;*/
     border-collapse: collapse;
 }
 #files_table th, #files_table td {
@@ -46,7 +83,7 @@
     border-bottom: 1px solid black;
 }*/
 td > img {
-    width: 20%;
+    max-width: 20%;
     margin: auto;
 }
 .btn_show_files {
@@ -115,14 +152,14 @@ td > img {
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 }
-.close {
+.btn_close {
   color: #aaa;
   float: right;
   font-size: 20px;
   font-weight: bold;
 }
-.close:hover,
-.close:focus {
+.btn_close:hover,
+.btn_close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
