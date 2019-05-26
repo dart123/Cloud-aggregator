@@ -5,9 +5,11 @@ function YandexDiskAuth() {
         cache: false,
         success: function(response) {
                 window.location.replace(response);
+                return true;
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
+                return false;
             },
     });
 }
@@ -18,9 +20,11 @@ function DropboxAuth() {
         cache: false,
         success: function(response) {
                 window.location.replace(response);
+                return true;
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
+                return false;
             },
     });
 }
@@ -31,9 +35,11 @@ function BoxAuth() {
         cache: false,
         success: function(response) {
                 window.location.replace(response);
+                return true;
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
+                return false;
             },
     });
 }

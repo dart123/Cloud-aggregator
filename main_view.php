@@ -27,11 +27,34 @@
             </div>
             
             <div class="side-bar">
-                <ul>
-                    <li><img src="../media/yandexdisk-icon.ico"></li>
+                 <table id="added_clouds_table">
+                    <tr>
+                        <td>
+                            <img src="../media/yandexdisk-icon.ico">
+                            <p>Yandex disk</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="../media/dropbox-icon.svg">
+                            <p>Dropbox</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="../media/box-icon.png">
+                            <p>Box.com</p>
+                        </td>
+                    </tr>
+                 </table>
+                <!--<ul>
+                    <li>
+                        <img src="../media/yandexdisk-icon.ico">
+                        <p>Yandex disk</p>
+                    </li>
                     <li><img src="../media/dropbox-icon.svg"></li>
                     <li><img src="../media/box-icon.png"></li>
-                </ul>
+                </ul>-->
                 <button class="btn_show_files" id="btn_add_cloud" onclick="openAddCloudModal();">Добавить облако</button>
             </div>
             
@@ -108,6 +131,10 @@
                 <li data-action="delete">Удалить файл</li>
             </ul>
         
+            <ul class='custom-menu_clouds'>
+                <li data-action="remove_cloud">Удалить облако</li>
+                <li data-action="edit_cloud">Изменить облако</li>
+            </ul>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 			  crossorigin="anonymous">
