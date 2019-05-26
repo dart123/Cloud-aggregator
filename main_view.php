@@ -2,7 +2,10 @@
     require 'vendor/autoload.php';
     require_once 'private/DBManager.php';
     session_start();
-    $result = null;
+    $script;
+    if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1)
+        $script = "<script type=\"text/javascript\"> GetTokenClouds()</script>";
+    //$result = null;
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,24 +31,26 @@
             
             <div class="side-bar">
                  <table id="added_clouds_table">
-                    <tr>
-                        <td>
-                            <img src="../media/yandexdisk-icon.ico">
-                            <p>Yandex disk</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="../media/dropbox-icon.svg">
-                            <p>Dropbox</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="../media/box-icon.png">
-                            <p>Box.com</p>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <!--<tr>
+                            <td>
+                                <img src="media/yandexdisk-icon.ico">
+                                <p>Yandex disk</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="media/dropbox-icon.svg">
+                                <p>Dropbox</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="media/box-icon.png">
+                                <p>Box.com</p>
+                            </td>
+                        </tr>-->
+                    </tbody>
                  </table>
                 <!--<ul>
                     <li>
@@ -97,19 +102,19 @@
                         <table id="clouds_table">
                             <tr>
                                 <td>
-                                    <img src="../media/yandexdisk-icon.ico">
+                                    <img src="media/yandexdisk-icon.ico">
                                     <p>Yandex disk</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="../media/dropbox-icon.svg">
+                                    <img src="media/dropbox-icon.svg">
                                     <p>Dropbox</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="../media/box-icon.png">
+                                    <img src="media/box-icon.png">
                                     <p>Box.com</p>
                                 </td>
                             </tr>
@@ -148,6 +153,12 @@
             //alert(event.data);
             //};
         </script>
+        <?php
+            global $script;
+            if (isset($script))
+                echo $script;
+        ?>
+                  
         <!--<script type="text/javascript" src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>-->
     </body>
 </html>

@@ -19,12 +19,12 @@ $("#clouds_table tr").click(function(){
   $(this).addClass('selected').siblings().removeClass('selected');
 });
 /*Добавленные облака*/
-$("#added_clouds_table tbody tr").click(function(){
-  $(this).addClass('selected').siblings().removeClass('selected');
-});
-$("#added_clouds_table tbody tr").contextmenu(function(){
-  $(this).addClass('selected').siblings().removeClass('selected');
-});
+//$("#added_clouds_table tbody tr").click(function(){
+//  $(this).addClass('selected').siblings().removeClass('selected');
+//});
+//$("#added_clouds_table tbody tr").contextmenu(function(){
+//  $(this).addClass('selected').siblings().removeClass('selected');
+//});
 $("#added_clouds_table tbody").contextmenu(function (event) {
     
     // Avoid the real one
@@ -77,19 +77,25 @@ function AuthorizeCloud() {
   if ($selected_row.length > 0)
   {
       var cloud_index = $selected_row.index();
-      var auth_result;
+      var img_path, cloud_name;
       switch (cloud_index)
       {
           case 0:
-            auth_result = YandexDiskAuth();
+            YandexDiskAuth();
+            img_path = "../media/yandexdisk-icon.ico";
+            cloud_name = "Yandex disk";
             break;
           case 1:
-            auth_result = DropboxAuth();
+            DropboxAuth();
+            img_path = "../media/dropbox-icon.svg";
+            cloud_name = "Dropbox";
             break;
           case 2:
-            auth_result = BoxAuth();
+            BoxAuth();
+            img_path = "../media/box-icon.png";
+            cloud_name = "Box.com";
             break;
-      } 
+      }
       closeAddCloudModal();
   }
   else

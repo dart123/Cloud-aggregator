@@ -13,6 +13,9 @@ case 'save_user':
     if (isset($_POST['btn-signup']))
         save_user($_POST['email'], $_POST['username'], $_POST['password']);
     break;
+case 'get_token_clouds':
+    get_token(0, true);
+    break;
 case 'check_login':
     //$file = fopen(__DIR__."/response.json", 'w');
     //fwrite($file, "-1");
@@ -281,14 +284,21 @@ function save_token($token, $cloud)
         return false;
     }
 }
-function get_token($cloud)
+function get_token($cloud, $all = false)
 {
     global $conn;
     connect();
     $user_id = get_current_user1($conn);
     if ($user_id)
     {
-        $sql = "SELECT token FROM tokens WHERE cloud_id=$cloud AND user_id=$user_id";
+        if (!$all)
+        {
+            $sql = "SELECT token FROM tokens WHERE cloud_id=$cloud AND user_id=$user_id";
+        }
+        else
+        {
+            $sql = "SELECT cloud_id FROM tokens WHERE user_id=$user_id";
+        }
         $result = $conn->query($sql) or die(mysqli_error($conn));
         $result_token = array();
         close_connection();
@@ -298,7 +308,13 @@ function get_token($cloud)
             {
                 array_push($result_token, $row);
             }
-            return $result_token[0]["token"];
+            if (!$all)
+                return $result_token[0]["token"];
+            else
+            {
+                echo json_encode($result_token);
+                return;
+            }
         }
         else
         {
