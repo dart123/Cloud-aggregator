@@ -37,6 +37,22 @@ function BoxAuth() {
             },
     });
 }
+function DeleteToken(cloud_id) {
+    $.ajax({
+        type: "GET",
+        url: "../private/DBManager.php?f=delete_token&cloud_id=" + cloud_id,
+        cache: false,
+        success: function(response) {
+            console.log("response: " + response);
+            if (response)
+                $("#added_clouds_table .selected").remove();
+           
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
 function GetTokenClouds() {
     $.ajax({
         type: "GET",

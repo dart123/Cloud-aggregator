@@ -16,6 +16,9 @@ case 'save_user':
 case 'get_token_clouds':
     get_token(0, true);
     break;
+case 'delete_token':
+    delete_token($_GET['cloud_id']);
+    break;
 case 'check_login':
     //$file = fopen(__DIR__."/response.json", 'w');
     //fwrite($file, "-1");
@@ -297,7 +300,7 @@ function get_token($cloud, $all = false)
         }
         else
         {
-            $sql = "SELECT cloud_id FROM tokens WHERE user_id=$user_id";
+            $sql = "SELECT cloud_id FROM tokens WHERE user_id=$user_id ORDER BY cloud_id ASC";
         }
         $result = $conn->query($sql) or die(mysqli_error($conn));
         $result_token = array();
@@ -338,6 +341,21 @@ function update_token($new_token, $cloud)
     }
     else
         return false;
+}
+function delete_token($cloud_id)
+{
+    global $conn;
+	connect();
+    $user_id = get_current_user1($conn);
+    if ($user_id)
+    {
+        $sql = "DELETE FROM tokens WHERE cloud_id='$cloud_id' AND user_id='$user_id'";
+        $result = $conn->query($sql) or die(mysqli_error($conn));
+        close_connection();
+        echo 1;
+    }
+    else
+        echo 0;
 }
 function delete_file($filename, $modified)
 {

@@ -54,22 +54,34 @@ $(document).bind("mousedown", function (e) {
 
 // If the menu element is clicked
 $(".custom-menu_clouds li").click(function(){
-    
-    // This is the triggered action name
-    switch($(this).attr("data-action")) {
-        
-        // A case for each action. Your actions here
-        case "remove_cloud":
-          //alert("download");
-          DownloadFile($("#files_table .selected td:nth-child(2)").html(), $("#files_table .selected td:nth-child(4)").html());
+    var $selected_row = $("#added_clouds_table .selected p");
+    if ($selected_row.length > 0)
+    {
+      var cloud_name = $selected_row.html();
+      var cloud_index;
+      switch (cloud_name) {
+        case "Yandex disk" :
+          cloud_index = 1;
           break;
-        case "edit_cloud":
-          openModal();
+        case "Dropbox" :
+          cloud_index = 2;
           break;
+        case "Box.com":
+          cloud_index = 3;
+          break;
+      }
+        switch($(this).attr("data-action")) {
+          case "remove_cloud":
+            console.log("Cloud_index : " + cloud_index);
+            DeleteToken(cloud_index);
+            break;
+          case "edit_cloud":
+            openModal();
+            break;
+        }
+        $(".custom-menu").hide(100);
     }
-  
     // Hide it AFTER the action was triggered
-    $(".custom-menu").hide(100);
   });
 /***************************************/
 function AuthorizeCloud() {
