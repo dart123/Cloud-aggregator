@@ -43,7 +43,6 @@ function DeleteToken(cloud_id) {
         url: "../private/DBManager.php?f=delete_token&cloud_id=" + cloud_id,
         cache: false,
         success: function(response) {
-            console.log("response: " + response);
             if (response)
                 $("#added_clouds_table .selected").remove();
            
@@ -53,6 +52,11 @@ function DeleteToken(cloud_id) {
             },
     });
 }
+function HandleTokenCloudsResponse(response)
+{
+    ShowAddedClouds(response);
+    ShowFilesPerCloud();
+}
 function GetTokenClouds() {
     $.ajax({
         type: "GET",
@@ -61,38 +65,7 @@ function GetTokenClouds() {
         success: function(response) {
             if (response)
             {
-                var clouds = JSON.parse(response);
-                $('#added_clouds_table tbody').empty();
-                clouds.forEach(function(entry) {
-                    var img_path, cloud_name;
-                    switch (entry.cloud_id) {
-                        case "1":
-                            img_path = "../media/yandexdisk-icon.ico";
-                            cloud_name = "Yandex disk";
-                            break;
-                        case "2":
-                            img_path = "../media/dropbox-icon.svg";
-                            cloud_name = "Dropbox";
-                            break;
-                        case "3":
-                            img_path = "../media/box-icon.png";
-                            cloud_name = "Box.com";
-                            break;
-                    }
-                             $("#added_clouds_table tbody").append(
-                                "<tr>" +
-                                    "<td><img src=" + img_path + ">" +
-                                    "<p>" + cloud_name + "</p>" +
-                                    "</td>" +
-                                "</tr>");
-                });
-                    //Выбор файла
-                    $("#added_clouds_table tbody tr").click(function(){
-                        $(this).addClass('selected').siblings().removeClass('selected');    
-                    });
-                    $("#added_clouds_table tbody tr").contextmenu(function(){
-                        $(this).addClass('selected').siblings().removeClass('selected');    
-                    });
+                HandleTokenCloudsResponse(response);
             }
             else alert("REPONSE FALSE");
 
@@ -111,24 +84,40 @@ function GetFiles(cloud=0) {
             if (response)
             {
                 var files = JSON.parse(response);
-                $('#files_table tbody').empty();
-                files.forEach(function(entry) {
+                //$('#files_table tbody').empty();
+                var text;
+                switch (cloud) {
+                    case 1:
+                        text = "Yandex disk";
+                        break;
+                    case 2:
+                        text = "Dropbox";
+                        break;
+                    case 3:
+                        text = "Box";
+                        break;
+                }
                 $("#files_table tbody").append(
-                "<tr>" +
-                    "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
-                    "<td>" + entry.filename + "</td>" +
-                    "<td>" + entry.filesize/1024 + "KB</td>" +
-                    "<td>" + (entry.lastupdate ? entry.lastupdate : "")+ "</td>" +
-                "</tr>");});
+                    "<tr>" +
+                        "<td class='cloud_header' colspan='4'><span>" + text + "</span></td>" +
+                    "</tr>");
+                files.forEach(function(entry) {
+                    $("#files_table tbody").append(
+                    "<tr class='file_row'>" +
+                        "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
+                        "<td>" + entry.filename + "</td>" +
+                        "<td>" + entry.filesize/1024 + "KB</td>" +
+                        "<td>" + (entry.lastupdate ? entry.lastupdate : "")+ "</td>" +
+                    "</tr>");
+                });
                 //Выбор файла
-                $("#files_table tbody tr").click(function(){
+                $("#files_table tbody .file_row").click(function(){
                     $(this).addClass('selected').siblings().removeClass('selected');    
                 });
-                $("#files_table tbody tr").contextmenu(function(){
+                $("#files_table tbody .file_row").contextmenu(function(){
                     $(this).addClass('selected').siblings().removeClass('selected');    
                 });
             }
-            else alert("REPONSE FALSE");
 
         },
          error: function(data) {

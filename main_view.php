@@ -4,7 +4,9 @@
     session_start();
     $script;
     if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1)
-        $script = "<script type=\"text/javascript\"> GetTokenClouds()</script>";
+        $script = "<script type=\"text/javascript\">
+            GetTokenClouds();
+        </script>";
     //$result = null;
 ?>
 <!DOCTYPE html>
@@ -76,9 +78,9 @@
                     <tbody>
                     </tbody>
                 </table>
-                <button class="btn_show_files" onclick="YandexDiskAuth();">Авторизоваться в Yandex Disk</button>
+                <!--<button class="btn_show_files" onclick="YandexDiskAuth();">Авторизоваться в Yandex Disk</button>
                 <button class="btn_show_files" onclick="DropboxAuth();">Авторизоваться в Dropbox</button>
-                <button class="btn_show_files" onclick="BoxAuth();">Авторизоваться в Box</button>
+                <button class="btn_show_files" onclick="BoxAuth();">Авторизоваться в Box</button>-->
                 
                 <button class="btn_show_files" onclick="GetFiles(1);">Загрузить файлы из Yandex Disk</button>
                 <button class="btn_show_files" onclick="GetFiles(2);">Загрузить файлы из Dropbox</button>
@@ -102,13 +104,13 @@
                         <table id="clouds_table">
                             <tr>
                                 <td>
-                                    <img src="media/yandexdisk-icon.ico">
+                                    <img src="media/yandexdisk-icon.png">
                                     <p>Yandex disk</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="media/dropbox-icon.svg">
+                                    <img src="media/dropbox-icon.png">
                                     <p>Dropbox</p>
                                 </td>
                             </tr>
@@ -138,7 +140,7 @@
         
             <ul class='custom-menu_clouds'>
                 <li data-action="remove_cloud">Удалить облако</li>
-                <li data-action="edit_cloud">Изменить облако</li>
+                <!--<li data-action="edit_cloud">Изменить облако</li>-->
             </ul>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

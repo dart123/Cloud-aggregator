@@ -60,7 +60,7 @@ function callback() {
         if (!get_token(2))
                 save_token($result->access_token, 2);
             else
-                if (get_token(2, 1) != $result->access_token)
+                if (get_token(2) != $result->access_token)
                     update_token($result->access_token, 2);
         $files = dropbox_list_folder("", $result->access_token);
         if ($files)
@@ -74,7 +74,6 @@ function callback() {
 }
 function dropbox_list_folder($path, $token)
 {
-    //$token = get_token(2, 1);
     if (isset($token)) {
         $query = array(
             'path' => $path,

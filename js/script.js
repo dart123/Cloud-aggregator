@@ -72,18 +72,70 @@ $(".custom-menu_clouds li").click(function(){
       }
         switch($(this).attr("data-action")) {
           case "remove_cloud":
-            console.log("Cloud_index : " + cloud_index);
+            console.log($(".cloud_header"));
             DeleteToken(cloud_index);
             break;
-          case "edit_cloud":
-            openModal();
-            break;
+          //case "edit_cloud":
+          //  openModal();
+          //  break;
         }
         $(".custom-menu").hide(100);
     }
     // Hide it AFTER the action was triggered
   });
 /***************************************/
+function ShowFilesPerCloud()
+{
+  var added_clouds = $('#added_clouds_table tbody tr td p');
+  added_clouds.each(function() {
+  switch ($(this).text()) {
+      case 'Yandex disk':
+          GetFiles(1);
+          break;
+      case 'Dropbox':
+          GetFiles(2);
+          break;
+      case 'Box.com':
+          GetFiles(3);
+          break;
+    }
+  });
+}
+function ShowAddedClouds(cloud_ids)
+{
+  var clouds = JSON.parse(cloud_ids);
+  $('#added_clouds_table tbody').empty();
+  clouds.forEach(function(entry) {
+    var img_path, cloud_name;
+    switch (entry.cloud_id) {
+      case "1":
+        img_path = "../media/yandexdisk-icon.png";
+        cloud_name = "Yandex disk";
+        break;
+      case "2":
+        img_path = "../media/dropbox-icon.png";
+        cloud_name = "Dropbox";
+        break;
+      case "3":
+        img_path = "../media/box-icon.png";
+        cloud_name = "Box.com";
+        break;
+      }
+    $("#added_clouds_table tbody").append(
+      "<tr>" +
+        "<td><img src=" + img_path + ">" +
+        "<p>" + cloud_name + "</p>" +
+        "</td>" +
+      "</tr>");
+  });
+  //Выбор файла
+  $("#added_clouds_table tbody tr").click(function(){
+  $(this).addClass('selected').siblings().removeClass('selected');    
+  });
+  $("#added_clouds_table tbody tr").contextmenu(function(){
+  $(this).addClass('selected').siblings().removeClass('selected');    
+  });
+}
 function AuthorizeCloud() {
   var $selected_row = $("#clouds_table .selected");
   if ($selected_row.length > 0)
@@ -94,7 +146,7 @@ function AuthorizeCloud() {
       {
           case 0:
             YandexDiskAuth();
-            img_path = "../media/yandexdisk-icon.ico";
+            img_path = "../media/yandexdisk-icon.png";
             cloud_name = "Yandex disk";
             break;
           case 1:
@@ -154,18 +206,32 @@ $('#btn_upload_box').on('click', function() {
     BoxUploadFile(form_data);
 });
 $("#files_table tbody").contextmenu(function (event) {
-    
-    // Avoid the real one
-    event.preventDefault();
-    
-    // Show contextmenu
-    $(".custom-menu").finish().toggle(100).
-    
-    // In the right position (the mouse)
-    css({
-        top: (event.pageY - 17) + "px",
-        left: event.pageX + "px"
+    var headers = $("#files_table .cloud_header");
+    var is_header = false;
+    console.log(headers);
+    headers.each(function(entry)
+    {
+        console.log("entry.left:" + entry.position().left);
+        if (event.pageX >= entry.position().left && event.pageY - 17 >= entry.position().top &&
+            event.pageX <= entry.position().left + entry.width() && event.pageY - 17 <= entry.height())
+        {
+          is_header = true;
+          return false;
+        }
     });
+    if (!is_header)
+    {
+        // Avoid the real one
+        event.preventDefault();
+        // Show contextmenu
+        $(".custom-menu").finish().toggle(100).
+        
+        // In the right position (the mouse)
+        css({
+            top: (event.pageY - 17) + "px",
+            left: event.pageX + "px"
+        });
+    }
 });
 // If the document is clicked somewhere
 $(document).bind("mousedown", function (e) {
