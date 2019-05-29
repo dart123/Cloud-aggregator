@@ -208,17 +208,18 @@ $('#btn_upload_box').on('click', function() {
 $("#files_table tbody").contextmenu(function (event) {
     var headers = $("#files_table .cloud_header");
     var is_header = false;
-    console.log(headers);
-    headers.each(function(entry)
+    headers.each(function()
     {
-        console.log("entry.left:" + entry.position().left);
-        if (event.pageX >= entry.position().left && event.pageY - 17 >= entry.position().top &&
-            event.pageX <= entry.position().left + entry.width() && event.pageY - 17 <= entry.height())
+      var tmp = $(this);
+        if (event.pageX >= tmp.offset().left && event.pageY>= tmp.offset().top &&
+            event.pageX <= tmp.offset().left + tmp.width() && event.pageY<= tmp.offset().top + tmp.height())
         {
+          console.log("yes");
           is_header = true;
           return false;
         }
     });
+    console.log("/////////////////////////////");
     if (!is_header)
     {
         // Avoid the real one
