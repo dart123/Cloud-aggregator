@@ -6,3 +6,8 @@ num_rows: 1
 num_rows: 1
 num_rows: 1
 num_rows: 1
+dropbox result: {"metadata": {".tag": "file", "name": "a_5e5ccc9e.jpg", "path_lower": "/a_5e5ccc9e.jpg", "path_display": "/a_5e5ccc9e.jpg", "id": "id:Iyk0ozB75IAAAAAAAAAAEA", "client_modified": "2019-05-25T13:43:29Z", "server_modified": "2019-05-25T13:43:29Z", "rev": "215b2acb45", "size": 22276, "is_downloadable": true, "content_hash": "41e042018e7eed5840a06fcb0a42db4294cdef4d10be9da8e1597e8afb57af91"}}
+dropbox http code: 200
+http code: 204
+dropbox result: {"metadata": {".tag": "file", "name": "Nit_Algoritmy_Sortirovania.gif", "path_lower": "/nit_algoritmy_sortirovania.gif", "path_display": "/Nit_Algoritmy_Sortirovania.gif", "id": "id:Iyk0ozB75IAAAAAAAAAAEQ", "client_modified": "2019-05-25T13:43:29Z", "server_modified": "2019-05-25T13:43:29Z", "rev": "235b2acb45", "size": 9391272, "is_downloadable": true, "content_hash": "a530355f330ba6ee9fbcff86de56bf8c0e6b8c0179d9c598b7242c66091e9f1c"}}
+dropbox http code: 200

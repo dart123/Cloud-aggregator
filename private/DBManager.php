@@ -367,7 +367,7 @@ function delete_token($cloud_id)
     else
         echo 0;
 }
-function delete_file($filename, $modified, $cloud_id)
+function delete_file($filename, $modified, $cloud_id = null)
 {
     global $conn;
 	connect();
