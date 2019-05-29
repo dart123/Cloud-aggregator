@@ -85,7 +85,7 @@
                 <button class="btn_show_files" onclick="GetFiles(1);">Загрузить файлы из Yandex Disk</button>
                 <button class="btn_show_files" onclick="GetFiles(2);">Загрузить файлы из Dropbox</button>
                 <button class="btn_show_files" onclick="GetFiles(3);">Загрузить файлы из Box</button>
-                <button class="btn_show_files" onclick="GetFiles();">Загрузить все файлы</button>
+                <button class="btn_show_files" onclick="ShowFilesPerCloud();">Загрузить все файлы</button>
                 
                 <div class="upload-modal">
                     <div class="upload-modal-content">

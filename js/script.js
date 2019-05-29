@@ -72,14 +72,13 @@ $(".custom-menu_clouds li").click(function(){
       }
         switch($(this).attr("data-action")) {
           case "remove_cloud":
-            console.log($(".cloud_header"));
-            DeleteToken(cloud_index);
+            DeleteCloud(cloud_index);
             break;
           //case "edit_cloud":
           //  openModal();
           //  break;
         }
-        $(".custom-menu").hide(100);
+        $(".custom-menu_clouds").hide(100);
     }
     // Hide it AFTER the action was triggered
   });
@@ -219,7 +218,6 @@ $("#files_table tbody").contextmenu(function (event) {
           return false;
         }
     });
-    console.log("/////////////////////////////");
     if (!is_header)
     {
         // Avoid the real one

@@ -37,16 +37,37 @@ function BoxAuth() {
             },
     });
 }
+function DeleteCloud(cloud_id)
+{
+    DeleteToken(cloud_id);
+    DeleteFilesPerCloud(cloud_id);
+}
+function DeleteFilesPerCloud(cloud_id)
+{
+     $.ajax({
+        type: "GET",
+        url: "../private/DBManager.php?f=delete_files&cloud_id=" + cloud_id,
+        cache: false,
+        success: function(response) {
+                $("#added_clouds_table .selected").remove();
+                GetFiles(cloud_id);
+           
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
 function DeleteToken(cloud_id) {
     $.ajax({
         type: "GET",
         url: "../private/DBManager.php?f=delete_token&cloud_id=" + cloud_id,
         cache: false,
-        success: function(response) {
-            if (response)
-                $("#added_clouds_table .selected").remove();
-           
-        },
+        //success: function(response) {
+        //    if (response)
+        //        $("#added_clouds_table .selected").remove();
+        //   
+        //},
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
             },
@@ -75,17 +96,48 @@ function GetTokenClouds() {
             },
     });
 }
+function ClearFilesPerCloud(rows, text)
+{
+    var $current_cloud;
+    rows.each(function() {
+        if ($(this).find('td').attr("class") == 'cloud_header')
+        {
+            if ($(this).find('span').text() == text)
+            {
+                $current_cloud = $(this);
+                var $rows_to_delete = $current_cloud.nextAll();
+                //console.log($rows_to_delete);
+                $rows_to_delete.each(function() {
+                    if ($(this).next().find('td').attr("class") == 'cloud_header')
+                    {
+                        $rows_to_delete = $rows_to_delete.not($(this).nextAll());
+                        return false;
+                    }
+                });
+                $rows_to_delete.remove();
+            }
+        }
+    });
+    return $current_cloud;
+}
+function ClearHeader(headers, cloud_name)
+{
+    headers.each(function() {
+        if ($(this).text() === cloud_name)
+        {
+            $(this).parent().parent().remove();
+        }
+    });
+}
 function GetFiles(cloud=0) {
     $.ajax({
         type: "GET",
         url: "../private/DBManager.php?f=getfiles&cloud=" + cloud,
         cache: false,
         success: function(response) {
-            if (response)
-            {
-                var files = JSON.parse(response);
-                //$('#files_table tbody').empty();
-                var text;
+            var shown_rows = $('#files_table tbody tr');
+            var cloud_headers = $('#files_table tbody .cloud_header span');
+            var text;
                 switch (cloud) {
                     case 1:
                         text = "Yandex disk";
@@ -94,21 +146,83 @@ function GetFiles(cloud=0) {
                         text = "Dropbox";
                         break;
                     case 3:
-                        text = "Box";
+                        text = "Box.com";
                         break;
                 }
-                $("#files_table tbody").append(
-                    "<tr>" +
-                        "<td class='cloud_header' colspan='4'><span>" + text + "</span></td>" +
-                    "</tr>");
-                files.forEach(function(entry) {
+            if (response)
+            {
+                var files = JSON.parse(response);
+                //$('#files_table tbody').empty();
+                var header_exists = false;//, file_exists = false;
+                var added_clouds = $('#added_clouds_table tbody tr td p');
+                var count=0;
+                //Проверяем, есть ли данное название облака в списке добавленных облаков
+                added_clouds.each(function() {
+                    if ($(this).text() === text)
+                    {
+                        count++;
+                        return false;
+                    }
+                });
+                //Если нет в списке добавленных облаков
+                if (!count)
+                    header_exists = true;
+                if (!header_exists)
+                {
+                    cloud_headers.each(function() {
+                        if ($(this).text() == text)
+                        {
+                            header_exists = true;
+                            return false;
+                        }
+                    });
+                }
+                if (!header_exists)
+                {
                     $("#files_table tbody").append(
-                    "<tr class='file_row'>" +
-                        "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
-                        "<td>" + entry.filename + "</td>" +
-                        "<td>" + entry.filesize/1024 + "KB</td>" +
-                        "<td>" + (entry.lastupdate ? entry.lastupdate : "")+ "</td>" +
-                    "</tr>");
+                        "<tr>" +
+                            "<td class='cloud_header' colspan='4'><span>" + text + "</span></td>" +
+                        "</tr>");
+                }
+                var $current_cloud = ClearFilesPerCloud(shown_rows, text);
+                files.forEach(function(entry) {
+                    //Проверяем, отображен ли уже данный файл
+                    //shown_files.each(function() {
+                    //    var filename = $(this).find(".filename_col").text();
+                    //    var size = $(this).find(".size_col").text();
+                    //    size = size.slice(0, -2);
+                    //    size = parseFloat(size);
+                    //    size *= 1024;
+                    //    var modified = $(this).find(".modified_col").text();
+                    //    entry.lastupdate = (entry.lastupdate ? entry.lastupdate : "");
+                    //    if (filename == entry.filename && size == entry.filesize && modified == entry.lastupdate)
+                    //    {
+                    //        file_exists = true;
+                    //        shown_files = shown_files.not($(this));
+                    //        return false;
+                    //    }
+                    //});
+                    
+                    //if (!file_exists)
+                    //{
+                    
+                        if ($current_cloud)
+                            $current_cloud.after(
+                            "<tr class='file_row'>" +
+                                "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
+                                "<td class='filename_col'>" + entry.filename + "</td>" +
+                                "<td class='size_col'>" + entry.filesize/1024 + "KB</td>" +
+                                "<td class='modified_col'>" + entry.lastupdate + "</td>" +
+                            "</tr>");
+                        else
+                            $("#files_table tbody").append(
+                                "<tr class='file_row'>" +
+                                "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
+                                "<td class='filename_col'>" + entry.filename + "</td>" +
+                                "<td class='size_col'>" + entry.filesize/1024 + "KB</td>" +
+                                "<td class='modified_col'>" + entry.lastupdate + "</td>" +
+                            "</tr>");
+                    //}
                 });
                 //Выбор файла
                 $("#files_table tbody .file_row").click(function(){
@@ -117,6 +231,11 @@ function GetFiles(cloud=0) {
                 $("#files_table tbody .file_row").contextmenu(function(){
                     $(this).addClass('selected').siblings().removeClass('selected');    
                 });
+            }
+            else
+            {
+                ClearFilesPerCloud(shown_rows, text);
+                ClearHeader(cloud_headers, text);
             }
 
         },

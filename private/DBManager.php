@@ -19,6 +19,9 @@ case 'get_token_clouds':
 case 'delete_token':
     delete_token($_GET['cloud_id']);
     break;
+case 'delete_files':
+    delete_file(null, null, $_GET['cloud_id']);
+    break;
 case 'check_login':
     //$file = fopen(__DIR__."/response.json", 'w');
     //fwrite($file, "-1");
@@ -171,9 +174,16 @@ function save_file_signatures($files, $cloud)
 				break;
 		}
         $session_id = $_SESSION['session_id'];
-		$sql = "INSERT INTO filesignatures (filename, lastupdate, filesize, isSplit, isFolder, filetype, cloud_id, session_id)".
-		" VALUES ('$name', $modified, '$size', '0', '$isFolder', '$ext', '$cloud_id' ,'$session_id')";
-		$result = $conn->query($sql) or die(mysqli_error($conn));
+        //Проверяем есть ли этот файл уже в БД
+        $sql = "SELECT * FROM filesignatures WHERE filename='$name' AND lastupdate=$modified AND filesize='$size' AND isSplit='0' ".
+        "AND isFolder='$isFolder' AND filetype='$ext' AND cloud_id=$cloud_id AND session_id=$session_id";
+        $result = $conn->query($sql) or die(mysqli_error($conn));
+        if ($result->num_rows == 0)
+        {
+            $sql = "INSERT INTO filesignatures (filename, lastupdate, filesize, isSplit, isFolder, filetype, cloud_id, session_id)".
+            " VALUES ('$name', $modified, '$size', '0', '$isFolder', '$ext', '$cloud_id' ,'$session_id')";
+            $result = $conn->query($sql) or die(mysqli_error($conn));
+        }
 	endforeach;
 	close_connection();
 }
@@ -357,19 +367,22 @@ function delete_token($cloud_id)
     else
         echo 0;
 }
-function delete_file($filename, $modified)
+function delete_file($filename, $modified, $cloud_id)
 {
     global $conn;
 	connect();
     if (!$modified)
         $modified = "null";
-	if ($filename)
+    $session_id = $_SESSION['session_id'];
+	if ($filename && !$cloud_id)
     {
-        $session_id = $_SESSION['session_id'];
 		$sql = "DELETE FROM filesignatures WHERE filename='$filename' AND lastupdate='$modified' AND session_id='$session_id'";
     }
 	else
-		return false;
+        if ($cloud_id)
+            $sql = "DELETE FROM filesignatures WHERE session_id='$session_id' AND cloud_id='$cloud_id'";
+        else
+            return false;
 	$result = $conn->query($sql) or die(mysqli_error($conn));
     close_connection();
     return true;
