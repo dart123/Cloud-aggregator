@@ -13,6 +13,9 @@ case 'save_user':
     if (isset($_POST['btn-signup']))
         save_user($_POST['email'], $_POST['username'], $_POST['password']);
     break;
+case 'get_is_folder':
+    is_folder($_GET['name'], $_GET['modified']);
+    break;
 case 'get_token_clouds':
     get_token(0, true);
     break;
@@ -279,15 +282,15 @@ function save_user($email, $username, $password)
     header('Location: ' . filter_var($redirect_url, FILTER_SANITIZE_URL));
     exit;
 }
-function save_token($token, $cloud)
+function save_token($token, $current_folder, $cloud)
 {
 	global $conn;
     connect();
     $user_id = get_current_user1($conn);
     if ($user_id)
     {
-        $sql = "INSERT INTO tokens (token, cloud_id, user_id)".
-            " VALUES ('$token', '$cloud', '$user_id')";
+        $sql = "INSERT INTO tokens (token, current_folder, cloud_id, user_id)".
+            " VALUES ('$token', '$current_folder', '$cloud', '$user_id')";
         $result = $conn->query($sql) or die(mysqli_error($conn));
         close_connection();
     }
@@ -337,14 +340,18 @@ function get_token($cloud, $all = false)
     else
         return false;
 }
-function update_token($new_token, $cloud)
+function update_token($new_token, $cloud, $current_folder = null)
 {
     global $conn;
     connect();
     $user_id = get_current_user1($conn);
     if ($user_id)
     {
-        $sql = "UPDATE tokens SET token='$new_token' WHERE cloud_id='$cloud' AND user_id='$user_id'";
+        if (!$current_folder && $new_token)
+            $sql = "UPDATE tokens SET token='$new_token' WHERE cloud_id='$cloud' AND user_id='$user_id'";
+        else
+            if ($current_folder && !$new_token)
+                $sql = "UPDATE tokens SET current_folder='$current_folder' WHERE cloud_id='$cloud' AND user_id='$user_id'";
         $result = $conn->query($sql) or die(mysqli_error($conn));
         close_connection();
         return true;
@@ -404,14 +411,67 @@ function get_file_cloud($filename, $modified)
 	$result = $conn->query($sql) or die(mysqli_error($conn));
 	if ($result->num_rows > 0)
 	{
-        //$file=fopen(__DIR__."/response.json", "w");
-        //fwrite($file, "a");
-        //fclose($file);
 		while($row = $result->fetch_assoc())
 		{
 			array_push($cloud, $row);
 		}
 		echo  $cloud[0]["cloud_id"];
+	}
+	else
+	{
+		echo false;
+	}
+	close_connection();
+}
+function get_current_folder($cloud)
+{
+    global $conn;
+    connect();
+    $user_id = get_current_user1($conn);
+    if ($user_id)
+    {
+        $sql = "SELECT current_folder FROM tokens WHERE user_id=$user_id AND cloud_id=$cloud";
+        $result = $conn->query($sql) or die(mysqli_error($conn));
+        $current_folder = array();
+        close_connection();
+        if ($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                array_push($current_folder, $row);
+            }
+            return $current_folder[0]["current_folder"];
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+        return false;
+}
+function is_folder($name, $modified)
+{
+    global $conn;
+	connect();
+	$is_folder = array();
+    if (!$modified)
+        $modified = "null";
+	if ($name)
+    {
+        $session_id = $_SESSION['session_id'];
+		$sql = "SELECT isFolder FROM filesignatures WHERE filename='$name' AND lastupdate='$modified' AND session_id='$session_id'";
+    }
+	else
+		return false;
+	$result = $conn->query($sql) or die(mysqli_error($conn));
+	if ($result->num_rows > 0)
+	{
+		while($row = $result->fetch_assoc())
+		{
+			array_push($is_folder, $row);
+		}
+		echo  $is_folder[0]["isFolder"];
 	}
 	else
 	{

@@ -58,21 +58,21 @@ function callback() {
         $result = file_get_contents('https://api.dropboxapi.com/oauth2/token', false, $context);
         $result = json_decode($result);
         if (!get_token(2))
-                save_token($result->access_token, 2);
+                save_token($result->access_token, "", 2);
             else
                 if (get_token(2) != $result->access_token)
                     update_token($result->access_token, 2);
-        $files = dropbox_list_folder("", $result->access_token);
-        if ($files)
-        {
-            save_file_signatures($files, "dropbox");
-        }
+        /*$files = */dropbox_list_folder("", $result->access_token, false);
+        //if ($files)
+        //{
+        //    save_file_signatures($files, "dropbox");
+        //}
         $redirect_url = "../../../main_view.php";
         header('Location: ' . filter_var($redirect_url, FILTER_SANITIZE_URL));
         exit;
     }
 }
-function dropbox_list_folder($path, $token)
+function dropbox_list_folder($path, $token, $external)
 {
     if (isset($token)) {
         $query = array(
@@ -94,7 +94,17 @@ function dropbox_list_folder($path, $token)
         $context = stream_context_create($opts);
         $result = file_get_contents('https://api.dropboxapi.com/2/files/list_folder', false, $context);
         $result = json_decode($result);
-        return $result->entries;
+        if ($result->entries)
+        {
+            delete_file(null, null, 2);
+            save_file_signatures($result->entries, "dropbox");
+            if ($external)
+                echo "true";
+        }
+        else
+            if ($external)
+                echo "false";
+        //return $result->entries;
         ////Fetch Cusrsor for listFolderContinue()
         //$cursor = $listFolderContents->getCursor();
         ////If more items are available

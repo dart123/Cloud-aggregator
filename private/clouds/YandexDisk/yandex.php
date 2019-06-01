@@ -13,6 +13,9 @@ case 'callback':
 case 'yandex_auth':
     yandex_auth();
     break;
+case 'list_folder':
+    yandex_list_folder($_GET['path'], get_token(1), true);
+    break;
 case 'download_file':
     yandex_download_file($_GET['filename']);
     break;
@@ -58,13 +61,15 @@ function callback() {
             curl_close($ch);
             $result = json_decode($result);
             if (!get_token(1))
-                save_token($result->access_token, 1);
+                save_token($result->access_token, "/", 1);
             else
                 if (get_token(1) != $result->access_token)
                     update_token($result->access_token, 1);
-            $files = yandex_list_folder("/", $result->access_token);
-            if ($files)
-                save_file_signatures($files, "yandex");
+            /*$files = */yandex_list_folder("/", $result->access_token, false);
+            //if ($files)
+            //{
+            //    save_file_signatures($files, "yandex");
+            //}
             $redirect_url = "../../../main_view.php";
             //header('Content-Type: text/event-stream');  Send server event
             //header('Cache-Control: no-cache');
@@ -74,30 +79,13 @@ function callback() {
         }
         exit;
 }
-//function yandex_get_files()
-//{
-//    global $token;
-//    if (isset($token)) {
-//        
-//            $header = "Authorization: OAuth ".$token;
-//            
-//            $opts = array('http' =>
-//              array(
-//              'method'  => 'GET',
-//              'header'  => $header,
-//              //'content' => $query
-//              ) 
-//            );
-//            $context = stream_context_create($opts);
-//            $result = file_get_contents('https://cloud-api.yandex.net/v1/disk/resources/files?limit=50', false, $context);
-//            $result = json_decode($result);
-//            yandex_get_folder_contents($token);
-//            return $result->items;
-//    }
-//}
-function yandex_list_folder($path, $token)
+function yandex_list_folder($path, $token, $ajax)
 {
     if (isset($token)) {
+        if ($ajax)
+        {
+            $path = get_current_folder(1).$path;
+        }
         $header = Array("Authorization: OAuth ".$token);
         $request_uri = "https://cloud-api.yandex.net/v1/disk/resources?path=".urlencode($path)."&limit=50";
         $ch = curl_init();
@@ -110,7 +98,20 @@ function yandex_list_folder($path, $token)
         //$result = file_get_contents($request_uri, false, $context);
         $result = json_decode($result);
         $embedded = $result->_embedded;
-        return $embedded->items;
+        if ($embedded->items)
+        {
+            delete_file(null, null, 1);
+            save_file_signatures($embedded->items, "yandex");
+            if ($ajax)
+            {
+                update_token(null, 1, $path); //обновить текущую папку
+                echo "true";
+            }
+        }
+        else
+            if ($ajax)
+                echo "false";
+        //return $embedded->items;
     }
 }
 function yandex_download_file($filename)

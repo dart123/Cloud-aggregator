@@ -88,7 +88,7 @@ function callback() {
             $result = json_decode($result);
             if (!get_token(3))
             {
-                $tmp = save_token($result->access_token, 3);
+                $tmp = save_token($result->access_token, "0", 3);
                 if (!$tmp) //если не сохранился токен
                 {
                     $redirect_url = "../../../main_view.php";
@@ -99,19 +99,19 @@ function callback() {
                 if (get_token(3) != $result->access_token)
                     update_token($result->access_token, 3);
                 
-            $files = box_get_files($result->access_token);
-            if ($files)
-            {
-                save_file_signatures($files, "box");
-            }
+            /*$files = */box_get_files($result->access_token, 0, false);
+            //if ($files)
+            //{
+            //    save_file_signatures($files, "box");
+            //}
             $redirect_url = "../../../main_view.php";
             header('Location: ' . filter_var($redirect_url, FILTER_SANITIZE_URL));
         }
         exit;
 }
-function box_get_files($token)
+function box_get_files($token, $path, $external)
 {
-    $shortFiles = box_list_folder($token);
+    $shortFiles = box_list_folder($token, $path);
     $fullFiles = array();
     foreach($shortFiles->entries as $value):
         $header = Array("Authorization: Bearer ".$token);
@@ -132,7 +132,17 @@ function box_get_files($token)
         $entry = json_decode($entry);
         array_push($fullFiles, $entry);
     endforeach;
-    return $fullFiles;
+    if ($fullFiles)
+    {
+        delete_file(null, null, 3);
+        save_file_signatures($fullFiles, "box");
+        if ($external)
+            echo "true";
+    }
+    else
+        if ($external)
+            echo "false";
+    //return $fullFiles;
 }
 function box_list_folder($token, $path=0)
 {

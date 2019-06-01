@@ -37,6 +37,51 @@ function BoxAuth() {
             },
     });
 }
+function YandexListFolder(foldername)
+{
+    console.log("folder name:");
+    console.log(foldername);
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/YandexDisk/yandex.php?f=list_folder&path=" + foldername,
+        cache: false,
+        success: function(response) {
+            GetFiles(1);
+                //window.location.replace(response);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function DropboxListFolder(path)
+{
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/Dropbox/dropbox.php?f=dropbox_auth",
+        cache: false,
+        success: function(response) {
+                window.location.replace(response);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function BoxListFolder(path)
+{
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/Box/box.php?f=box_auth",
+        cache: false,
+        success: function(response) {
+                window.location.replace(response);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
 function DeleteCloud(cloud_id)
 {
     DeleteToken(cloud_id);
@@ -186,25 +231,6 @@ function GetFiles(cloud=0) {
                 }
                 var $current_cloud = ClearFilesPerCloud(shown_rows, text);
                 files.forEach(function(entry) {
-                    //Проверяем, отображен ли уже данный файл
-                    //shown_files.each(function() {
-                    //    var filename = $(this).find(".filename_col").text();
-                    //    var size = $(this).find(".size_col").text();
-                    //    size = size.slice(0, -2);
-                    //    size = parseFloat(size);
-                    //    size *= 1024;
-                    //    var modified = $(this).find(".modified_col").text();
-                    //    entry.lastupdate = (entry.lastupdate ? entry.lastupdate : "");
-                    //    if (filename == entry.filename && size == entry.filesize && modified == entry.lastupdate)
-                    //    {
-                    //        file_exists = true;
-                    //        shown_files = shown_files.not($(this));
-                    //        return false;
-                    //    }
-                    //});
-                    
-                    //if (!file_exists)
-                    //{
                     
                         if ($current_cloud)
                             $current_cloud.after(
@@ -230,6 +256,45 @@ function GetFiles(cloud=0) {
                 });
                 $("#files_table tbody .file_row").contextmenu(function(){
                     $(this).addClass('selected').siblings().removeClass('selected');    
+                });
+                $("#files_table tbody .file_row").dblclick(function() {
+                    var $folder = $(this);
+                    $.ajax({
+                        type: "GET",
+                        url: "../private/DBManager.php?f=get_is_folder&name=" + $folder.find('td:nth-child(2)').text() +
+                                "&modified=" + $folder.find('td:nth-child(4)').text(),
+                        cache: false,
+                        success: function(response) {
+                            if (response == 1)
+                            {
+                                if ($folder.hasClass('selected'))
+                                {
+                                    var rows = $($('#files_table tbody tr').get().reverse());
+                                    rows = rows.not($folder.nextAll());
+                                    //Находим в каком облаке находится папка по заголовку в таблице
+                                    rows.each(function() {
+                                        var tmp = $(this);
+                                        if (tmp.find('td').hasClass('cloud_header'))
+                                        {
+                                            var cloud_name = tmp.find('span').text();
+                                            switch (cloud_name) {
+                                                case "Yandex disk":
+                                                    YandexListFolder(tmp.next().find('td:nth-child(2)').html());
+                                                    return false;
+                                                case "Dropbox":
+                                                    break;
+                                                case "Box.com":
+                                                    break;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                         error: function(data) {
+                                alert("ERROR:" + JSON.stringify(data));
+                            },
+                    });
                 });
             }
             else
