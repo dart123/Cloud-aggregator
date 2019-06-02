@@ -65,17 +65,9 @@ function callback() {
             else
                 if (get_token(1) != $result->access_token)
                     update_token($result->access_token, 1);
-            /*$files = */yandex_list_folder("/", $result->access_token, false);
-            //if ($files)
-            //{
-            //    save_file_signatures($files, "yandex");
-            //}
+            yandex_list_folder("/", $result->access_token, false);
             $redirect_url = "../../../main_view.php";
-            //header('Content-Type: text/event-stream');  Send server event
-            //header('Cache-Control: no-cache');
             header('Location: ' . filter_var($redirect_url, FILTER_SANITIZE_URL));
-            //echo "data: yandex\n\n";
-            //flush();
         }
         exit;
 }
@@ -107,11 +99,14 @@ function yandex_list_folder($path, $token, $ajax)
                 update_token(null, 1, $path); //обновить текущую папку
                 echo "true";
             }
+            else
+                return $embedded->items;
         }
         else
             if ($ajax)
                 echo "false";
-        //return $embedded->items;
+            else
+                return false;
     }
 }
 function yandex_download_file($filename)
@@ -119,7 +114,7 @@ function yandex_download_file($filename)
     global $current_folder;
     $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = yandex_list_folder("/", $token);
+            $folder_contents = yandex_list_folder(get_current_folder(1), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -187,7 +182,7 @@ function yandex_delete_file($filename, $modified)
     global $current_folder;
     $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = yandex_list_folder("/", $token);
+            $folder_contents = yandex_list_folder(get_current_folder(1), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;

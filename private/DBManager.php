@@ -378,12 +378,15 @@ function delete_file($filename, $modified, $cloud_id = null)
 {
     global $conn;
 	connect();
-    if (!$modified)
-        $modified = "null";
+    //if (!$modified)
+    //    $modified = "null";
     $session_id = $_SESSION['session_id'];
 	if ($filename && !$cloud_id)
     {
-		$sql = "DELETE FROM filesignatures WHERE filename='$filename' AND lastupdate='$modified' AND session_id='$session_id'";
+        if ($modified != "null")
+            $sql = "DELETE FROM filesignatures WHERE filename='$filename' AND lastupdate='$modified' AND session_id='$session_id'";
+        else
+            $sql = "DELETE FROM filesignatures WHERE filename='$filename' AND lastupdate is null AND session_id='$session_id'";
     }
 	else
         if ($cloud_id)
@@ -399,12 +402,15 @@ function get_file_cloud($filename, $modified)
     global $conn;
 	connect();
 	$cloud = array();
-    if (!$modified)
-        $modified = "null";
+    //if (!$modified)
+    //    $modified = "null";
 	if ($filename)
     {
         $session_id = $_SESSION['session_id'];
-		$sql = "SELECT cloud_id FROM filesignatures WHERE filename='$filename' AND lastupdate='$modified' AND session_id='$session_id'";
+        if ($modified != "null")
+            $sql = "SELECT cloud_id FROM filesignatures WHERE filename='$filename' AND lastupdate='$modified' AND session_id='$session_id'";
+        else
+            $sql = "SELECT cloud_id FROM filesignatures WHERE filename='$filename' AND lastupdate is null AND session_id='$session_id'";
     }
 	else
 		return false;
@@ -455,12 +461,15 @@ function is_folder($name, $modified)
     global $conn;
 	connect();
 	$is_folder = array();
-    if (!$modified)
-        $modified = "null";
+    //if (!$modified)
+    //    $modified = "null";
 	if ($name)
     {
         $session_id = $_SESSION['session_id'];
-		$sql = "SELECT isFolder FROM filesignatures WHERE filename='$name' AND lastupdate='$modified' AND session_id='$session_id'";
+        if ($modified != "null")
+            $sql = "SELECT isFolder FROM filesignatures WHERE filename='$name' AND lastupdate='$modified' AND session_id='$session_id'";
+        else
+            $sql = "SELECT isFolder FROM filesignatures WHERE filename='$name' AND lastupdate is null AND session_id='$session_id'";
     }
 	else
 		return false;

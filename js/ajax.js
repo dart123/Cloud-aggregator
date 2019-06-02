@@ -39,8 +39,6 @@ function BoxAuth() {
 }
 function YandexListFolder(foldername)
 {
-    console.log("folder name:");
-    console.log(foldername);
     $.ajax({
         type: "GET",
         url: "../private/clouds/YandexDisk/yandex.php?f=list_folder&path=" + foldername,
@@ -54,14 +52,16 @@ function YandexListFolder(foldername)
             },
     });
 }
-function DropboxListFolder(path)
+function DropboxListFolder(foldername)
 {
+    console.log("dropbox list folder");
     $.ajax({
         type: "GET",
-        url: "../private/clouds/Dropbox/dropbox.php?f=dropbox_auth",
+        url: "../private/clouds/Dropbox/dropbox.php?f=list_folder&path=" + foldername,
         cache: false,
         success: function(response) {
-                window.location.replace(response);
+            GetFiles(2);
+                //window.location.replace(response);
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
@@ -72,10 +72,26 @@ function BoxListFolder(path)
 {
     $.ajax({
         type: "GET",
-        url: "../private/clouds/Box/box.php?f=box_auth",
+        url: "../private/clouds/Box/box.php?f=list_folder&path=" + path,
         cache: false,
         success: function(response) {
-                window.location.replace(response);
+                GetFiles(3);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function BoxGetFileId(name)
+{
+    $.ajax({
+        type: "GET",
+        url: "../private/clouds/Box/box.php?f=get_file_id&name=" + name,
+        cache: false,
+        success: function(id) {
+            console.log("id:");
+            console.log(id);
+            BoxListFolder(id);
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
@@ -252,7 +268,7 @@ function GetFiles(cloud=0) {
                 });
                 //Выбор файла
                 $("#files_table tbody .file_row").click(function(){
-                    $(this).addClass('selected').siblings().removeClass('selected');    
+                    $(this).addClass('selected').siblings().removeClass('selected');
                 });
                 $("#files_table tbody .file_row").contextmenu(function(){
                     $(this).addClass('selected').siblings().removeClass('selected');    
@@ -282,8 +298,10 @@ function GetFiles(cloud=0) {
                                                     YandexListFolder(tmp.next().find('td:nth-child(2)').html());
                                                     return false;
                                                 case "Dropbox":
+                                                    DropboxListFolder(tmp.next().find('td:nth-child(2)').html());
                                                     break;
                                                 case "Box.com":
+                                                    BoxGetFileId(tmp.next().find('td:nth-child(2)').html());
                                                     break;
                                             }
                                         }

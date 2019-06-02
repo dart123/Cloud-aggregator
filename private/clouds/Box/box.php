@@ -20,8 +20,14 @@ case 'box_download':
 case 'upload_file':
     box_upload_file();
     break;
+case 'get_file_id':
+    box_get_file_id($_GET['name']);
+    break;
 case 'delete_file':
     box_delete_file($_GET['filename'], $_GET['modified']);
+    break;
+case 'list_folder':
+    box_get_files(get_token(3), $_GET['path'],  true);
     break;
 }
 function buildMultiPartRequest($ch, $boundary, $fields, $files, $token) {
@@ -109,8 +115,31 @@ function callback() {
         }
         exit;
 }
-function box_get_files($token, $path, $external)
+function box_get_file_id($name)
 {
+    $token = get_token(3);
+    if (isset($token))
+    {
+        $header = Array("Authorization: Bearer ".$token);
+        $request_uri = "https://api.box.com/2.0/search?query=".urlencode($name);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $request_uri);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($result);
+        $entry = $result->entries[0];
+        $id = $entry->id;
+        echo $id;
+    }
+}
+function box_get_files($token, $path, $ajax)
+{
+    //if ($ajax)
+    //    {
+    //        $path = get_current_folder(2).$path;
+    //    }
     $shortFiles = box_list_folder($token, $path);
     $fullFiles = array();
     foreach($shortFiles->entries as $value):
@@ -136,12 +165,19 @@ function box_get_files($token, $path, $external)
     {
         delete_file(null, null, 3);
         save_file_signatures($fullFiles, "box");
-        if ($external)
+        if ($ajax)
+        {
+            update_token(null, 3, $path); //обновить текущую папку
             echo "true";
+        }
+        else
+            return $fullFiles;
     }
     else
-        if ($external)
+        if ($ajax)
             echo "false";
+        else
+            return false;
     //return $fullFiles;
 }
 function box_list_folder($token, $path=0)
@@ -168,7 +204,7 @@ function box_download_file($filename)
     global $current_folder;
     $token = get_token(3); //1й параметр - облако (3 - box), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = box_list_folder($token);
+            $folder_contents = box_list_folder($token, get_current_folder(3));
             if ($folder_contents)
             {
                 $file_found = false;
@@ -262,7 +298,7 @@ function box_delete_file($filename, $modified)
     global $current_folder;
     $token = get_token(3); //1й параметр - облако (3 - box)
     if (isset($token)) {
-            $folder_contents = box_list_folder($token);
+            $folder_contents = box_list_folder($token, get_current_folder(3));
             if ($folder_contents)
             {
                 $file_found = false;
