@@ -247,11 +247,17 @@ function GetFiles(cloud=0) {
                 }
                 var $current_cloud = ClearFilesPerCloud(shown_rows, text);
                 files.forEach(function(entry) {
-                    
+                        var img_path;
+                        if (entry.isFolder == "1")
+                        {
+                            img_path = "../media/Folder_icon.svg";
+                        }
+                        else
+                            img_path = "../media/file_icon.svg";
                         if ($current_cloud)
                             $current_cloud.after(
                             "<tr class='file_row'>" +
-                                "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
+                                "<td class='img_col'><img src='" + img_path + "'></td>" +
                                 "<td class='filename_col'>" + entry.filename + "</td>" +
                                 "<td class='size_col'>" + entry.filesize/1024 + "KB</td>" +
                                 "<td class='modified_col'>" + entry.lastupdate + "</td>" +
@@ -259,7 +265,7 @@ function GetFiles(cloud=0) {
                         else
                             $("#files_table tbody").append(
                                 "<tr class='file_row'>" +
-                                "<td class='img_col'><img src='../media/Folder_icon.svg'></td>" +
+                                "<td class='img_col'><img src='" + img_path + "'></td>" +
                                 "<td class='filename_col'>" + entry.filename + "</td>" +
                                 "<td class='size_col'>" + entry.filesize/1024 + "KB</td>" +
                                 "<td class='modified_col'>" + entry.lastupdate + "</td>" +
