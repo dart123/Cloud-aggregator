@@ -54,7 +54,6 @@ function YandexListFolder(foldername)
 }
 function DropboxListFolder(foldername)
 {
-    console.log("dropbox list folder");
     $.ajax({
         type: "GET",
         url: "../private/clouds/Dropbox/dropbox.php?f=list_folder&path=" + foldername,
@@ -89,9 +88,30 @@ function BoxGetFileId(name)
         url: "../private/clouds/Box/box.php?f=get_file_id&name=" + name,
         cache: false,
         success: function(id) {
-            console.log("id:");
-            console.log(id);
             BoxListFolder(id);
+        },
+         error: function(data) {
+                alert("ERROR:" + JSON.stringify(data));
+            },
+    });
+}
+function GetCurrentFolder(cloud, callback)
+{
+     $.ajax({
+        type: "GET",
+        url: "../private/DBManager.php?f=get_current_folder&cloud=" + cloud,
+        cache: false,
+        success: function(response) {
+            if (response && cloud != 2)
+            {
+                callback(response);
+            }
+            else
+                if (cloud == 2)
+                    callback("");
+                else
+                    alert("REPONSE FALSE");
+
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
@@ -305,10 +325,10 @@ function GetFiles(cloud=0) {
                                                     return false;
                                                 case "Dropbox":
                                                     DropboxListFolder(tmp.next().find('td:nth-child(2)').html());
-                                                    break;
+                                                    return false;
                                                 case "Box.com":
                                                     BoxGetFileId(tmp.next().find('td:nth-child(2)').html());
-                                                    break;
+                                                    return false;
                                             }
                                         }
                                     });

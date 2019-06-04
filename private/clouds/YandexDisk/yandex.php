@@ -74,9 +74,9 @@ function callback() {
 function yandex_list_folder($path, $token, $ajax)
 {
     if (isset($token)) {
-        if ($ajax)
+        if ($ajax && $path != get_current_folder(1, false))
         {
-            $path = get_current_folder(1).$path;
+            $path = get_current_folder(1, false).$path;
         }
         $header = Array("Authorization: OAuth ".$token);
         $request_uri = "https://cloud-api.yandex.net/v1/disk/resources?path=".urlencode($path)."&limit=50";
@@ -86,8 +86,6 @@ function yandex_list_folder($path, $token, $ajax)
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         $result = curl_exec($ch);
         curl_close($ch);
-        //$context = stream_context_create($opts);
-        //$result = file_get_contents($request_uri, false, $context);
         $result = json_decode($result);
         $embedded = $result->_embedded;
         if ($embedded->items)
@@ -114,7 +112,7 @@ function yandex_download_file($filename)
     global $current_folder;
     $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = yandex_list_folder(get_current_folder(1), $token, false);
+            $folder_contents = yandex_list_folder(get_current_folder(1, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -182,7 +180,7 @@ function yandex_delete_file($filename, $modified)
     global $current_folder;
     $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = yandex_list_folder(get_current_folder(1), $token, false);
+            $folder_contents = yandex_list_folder(get_current_folder(1, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;

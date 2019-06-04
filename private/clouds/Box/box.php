@@ -127,7 +127,6 @@ function box_get_file_id($name)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         $result = curl_exec($ch);
-        curl_close($ch);
         $result = json_decode($result);
         $entry = $result->entries[0];
         $id = $entry->id;
@@ -136,10 +135,6 @@ function box_get_file_id($name)
 }
 function box_get_files($token, $path, $ajax)
 {
-    //if ($ajax)
-    //    {
-    //        $path = get_current_folder(2).$path;
-    //    }
     $shortFiles = box_list_folder($token, $path);
     $fullFiles = array();
     foreach($shortFiles->entries as $value):
@@ -204,7 +199,7 @@ function box_download_file($filename)
     global $current_folder;
     $token = get_token(3); //1й параметр - облако (3 - box), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = box_list_folder($token, get_current_folder(3));
+            $folder_contents = box_list_folder($token, get_current_folder(3, false));
             if ($folder_contents)
             {
                 $file_found = false;
@@ -298,7 +293,7 @@ function box_delete_file($filename, $modified)
     global $current_folder;
     $token = get_token(3); //1й параметр - облако (3 - box)
     if (isset($token)) {
-            $folder_contents = box_list_folder($token, get_current_folder(3));
+            $folder_contents = box_list_folder($token, get_current_folder(3, false));
             if ($folder_contents)
             {
                 $file_found = false;

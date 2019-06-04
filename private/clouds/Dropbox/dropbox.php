@@ -78,14 +78,14 @@ function callback() {
 function dropbox_list_folder($path, $token, $ajax)
 {
     if (isset($token)) {
-        if ($ajax)
+        if ($ajax && $path != get_current_folder(2, false))
         {
-            if (get_current_folder(2) === "")
+            if (get_current_folder(2, false) == "")
             {
                 $path = "/".$path;
             }
             else
-                $path = get_current_folder(2).$path;
+                $path = get_current_folder(2, false).$path;
         }
             
         $query = array(
@@ -136,7 +136,7 @@ function dropbox_download_file($filename)
     global $current_folder;
     $token = get_token(2); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = dropbox_list_folder(get_current_folder(2), $token, false);
+            $folder_contents = dropbox_list_folder(get_current_folder(2, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -207,7 +207,7 @@ function dropbox_delete_file($filename, $modified)
     global $current_folder;
     $token = get_token(2); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = dropbox_list_folder(get_current_folder(2), $token, false);
+            $folder_contents = dropbox_list_folder(get_current_folder(2, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;

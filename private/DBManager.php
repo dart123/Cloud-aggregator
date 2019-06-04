@@ -16,6 +16,9 @@ case 'save_user':
 case 'get_is_folder':
     is_folder($_GET['name'], $_GET['modified']);
     break;
+case 'get_current_folder':
+    get_current_folder($_GET['cloud'], true);
+    break;
 case 'get_token_clouds':
     get_token(0, true);
     break;
@@ -26,9 +29,6 @@ case 'delete_files':
     delete_file(null, null, $_GET['cloud_id']);
     break;
 case 'check_login':
-    //$file = fopen(__DIR__."/response.json", 'w');
-    //fwrite($file, "-1");
-    //fclose($file);
     if (isset($_POST['btn-login']))
         check_login($_POST['email'], $_POST['password']);
     break;
@@ -429,7 +429,7 @@ function get_file_cloud($filename, $modified)
 	}
 	close_connection();
 }
-function get_current_folder($cloud)
+function get_current_folder($cloud, $ajax)
 {
     global $conn;
     connect();
@@ -446,11 +446,17 @@ function get_current_folder($cloud)
             {
                 array_push($current_folder, $row);
             }
-            return $current_folder[0]["current_folder"];
+            if ($ajax)
+                echo $current_folder[0]["current_folder"];
+            else
+                return $current_folder[0]["current_folder"];
         }
         else
         {
-            return false;
+            if ($ajax)
+                echo "false";
+            else
+                return false;
         }
     }
     else

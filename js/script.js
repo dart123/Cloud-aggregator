@@ -132,20 +132,23 @@ function ShowAddedClouds(cloud_ids)
     $(this).addClass('selected').siblings().removeClass('selected');
     
     
-    ///////////////////////КОД ДЛЯ ОБНОВЛЕНИЯ ОБЛАКА ПРИ ВЫБОРЕ ОБЛАКА ИЗ added_clouds_table
-    //var $selected_row = $(this);
-    //var cloud_name = $selected_row.find("p").text();
-    //  switch (cloud_name) {
-    //    case "Yandex disk":
-    //      YandexListFolder(tmp.next().find('td:nth-child(2)').html());
-    //      return false;
-    //    case "Dropbox":
-    //      DropboxListFolder(tmp.next().find('td:nth-child(2)').html());
-    //      break;
-    //    case "Box.com":
-    //      BoxGetFileId(tmp.next().find('td:nth-child(2)').html());
-    //      break;
-    //    }
+    /////////////////////КОД ДЛЯ ОБНОВЛЕНИЯ ОБЛАКА ПРИ ВЫБОРЕ ОБЛАКА ИЗ added_clouds_table
+    var $selected_row = $(this);
+    var cloud_name = $selected_row.find("p").text();
+      switch (cloud_name) {
+        case "Yandex disk":
+          GetCurrentFolder(1, YandexListFolder);
+          //YandexListFolder(tmp.next().find('td:nth-child(2)').html());
+          return false;
+        case "Dropbox":
+          GetCurrentFolder(2, DropboxListFolder);
+          //DropboxListFolder(tmp.next().find('td:nth-child(2)').html());
+          break;
+        case "Box.com":
+          GetCurrentFolder(3, BoxListFolder);
+          //BoxGetFileId(tmp.next().find('td:nth-child(2)').html());
+          break;
+        }
     });
   
   $("#added_clouds_table tbody tr").contextmenu(function(){
