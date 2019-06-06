@@ -77,19 +77,20 @@ function callback() {
 }
 function dropbox_list_folder($path, $token, $ajax)
 {
+    debug_to_file("dropbox folder: $path");
     if (isset($token)) {
-        if ($ajax && $path != get_current_folder(2, false))
-        {
-            if (get_current_folder(2, false) == "")
-            {
-                $path = "/".$path;
-            }
-            else
-                $path = get_current_folder(2, false).$path;
-        }
+        //if ($ajax && $path != get_current_folder(2, false))
+        //{
+        //    if (get_current_folder(2, false) == "")
+        //    {
+        //        $path = "/".$path;
+        //    }
+        //    else
+        //        $path = get_current_folder(2, false).$path;
+        //}
             
         $query = array(
-            'path' => $path,
+            'path' => $path == "/" ? "" : $path,
         );
         $query = json_encode($query);
         

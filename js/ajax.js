@@ -95,22 +95,62 @@ function BoxGetFileId(name)
             },
     });
 }
-function GetCurrentFolder(cloud, callback)
+function GetCurrentFolder(cloud, modifier, data)
 {
      $.ajax({
         type: "GET",
         url: "../private/DBManager.php?f=get_current_folder&cloud=" + cloud,
         cache: false,
         success: function(response) {
-            if (response && cloud != 2)
+            var arg;
+            if (modifier === "next")
             {
-                callback(response);
-            }
-            else
-                if (cloud == 2)
-                    callback("");
+                data += "/";
+            //yandex начальная папка
+                if (response === "/")
+                {
+                    arg = response + data;
+                }
                 else
-                    alert("REPONSE FALSE");
+                //dropbox начальная папка
+                    if (response === "")
+                    {
+                        arg = "/" + data;
+                    }
+                    else
+                    {
+                        arg = response + data;
+                    }
+            }
+            if (modifier === "prev")
+            {
+                var split = response.split("/");
+                //путь по типу /folder1/folder2/ - отсекаем folder2 перед последним слешем
+                response = response.replace(split[split.length - 2], '');
+                //убираем слеш
+                arg = response.slice(0, -1);
+            }
+            if (!modifier)
+            //dropbox
+                if (cloud !== 2)
+                    arg = response;
+                else
+                    arg = "";
+            switch (cloud) {
+                case 1:
+                    YandexListFolder(arg);
+                    break;
+                case 2:
+                    DropboxListFolder(arg);
+                    break;
+                case 3:
+                    if (!modifier)
+                        BoxListFolder(arg);
+                    if (modifier === "next")
+                        BoxGetFileId(data);
+                    //if (modifier === "prev")
+                    break;
+            }
 
         },
          error: function(data) {
@@ -210,6 +250,47 @@ function ClearHeader(headers, cloud_name)
         }
     });
 }
+function dbClickHandler($folder, prev = false)
+{
+    $.ajax({
+        type: "GET",
+        url: "../private/DBManager.php?f=get_is_folder&name=" + $folder.find('td:nth-child(2)').text() +
+             "&modified=" + $folder.find('td:nth-child(4)').text(),
+        cache: false,
+        success: function(response) {
+            if (response == 1 || prev)
+            {
+                if ($folder.hasClass('selected') || prev)
+                {
+                    var rows = $($('#files_table tbody tr').get().reverse());
+                    rows = rows.not($folder.nextAll());
+                    //Находим в каком облаке находится папка по заголовку в таблице
+                                    rows.each(function() {
+                                        var tmp = $(this);
+                                        if (tmp.find('td').hasClass('cloud_header'))
+                                        {
+                                            var cloud_name = tmp.find('span').text();
+                                            switch (cloud_name) {
+                                                case "Yandex disk":
+                                                    GetCurrentFolder(1, !prev ? "next" : "prev", $folder.find('td:nth-child(2)').text());
+                                                    return false;
+                                                case "Dropbox":
+                                                    GetCurrentFolder(2, !prev ? "next" : "prev", $folder.find('td:nth-child(2)').text());
+                                                    return false;
+                                                case "Box.com":
+                                                    GetCurrentFolder(3, !prev ? "next" : "prev", $folder.find('td:nth-child(2)').text());
+                                                    return false;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                         error: function(data) {
+                                alert("ERROR:" + JSON.stringify(data));
+                            },
+                    });
+}
 function GetFiles(cloud=0) {
     $.ajax({
         type: "GET",
@@ -263,8 +344,12 @@ function GetFiles(cloud=0) {
                     $("#files_table tbody").append(
                         "<tr>" +
                             "<td class='cloud_header' colspan='4'><span>" + text + "</span></td>" +
+                        "</tr>" +
+                         "<tr class='prev_folder'>" +
+                            "<td colspan='4'><span>Назад</span></td>" +
                         "</tr>");
                 }
+                
                 var $current_cloud = ClearFilesPerCloud(shown_rows, text);
                 files.forEach(function(entry) {
                         var img_path;
@@ -301,44 +386,11 @@ function GetFiles(cloud=0) {
                 });
                 $("#files_table tbody .file_row").dblclick(function() {
                     var $folder = $(this);
-                    $.ajax({
-                        type: "GET",
-                        url: "../private/DBManager.php?f=get_is_folder&name=" + $folder.find('td:nth-child(2)').text() +
-                                "&modified=" + $folder.find('td:nth-child(4)').text(),
-                        cache: false,
-                        success: function(response) {
-                            if (response == 1)
-                            {
-                                if ($folder.hasClass('selected'))
-                                {
-                                    var rows = $($('#files_table tbody tr').get().reverse());
-                                    rows = rows.not($folder.nextAll());
-                                    //Находим в каком облаке находится папка по заголовку в таблице
-                                    rows.each(function() {
-                                        var tmp = $(this);
-                                        if (tmp.find('td').hasClass('cloud_header'))
-                                        {
-                                            var cloud_name = tmp.find('span').text();
-                                            switch (cloud_name) {
-                                                case "Yandex disk":
-                                                    YandexListFolder(tmp.next().find('td:nth-child(2)').html());
-                                                    return false;
-                                                case "Dropbox":
-                                                    DropboxListFolder(tmp.next().find('td:nth-child(2)').html());
-                                                    return false;
-                                                case "Box.com":
-                                                    BoxGetFileId(tmp.next().find('td:nth-child(2)').html());
-                                                    return false;
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        },
-                         error: function(data) {
-                                alert("ERROR:" + JSON.stringify(data));
-                            },
-                    });
+                    dbClickHandler($folder, false);
+                });
+                $("#files_table tbody .prev_folder").dblclick(function() {
+                    var $btn = $(this);
+                    dbClickHandler($btn, true);
                 });
             }
             else

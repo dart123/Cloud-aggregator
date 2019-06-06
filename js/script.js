@@ -137,15 +137,15 @@ function ShowAddedClouds(cloud_ids)
     var cloud_name = $selected_row.find("p").text();
       switch (cloud_name) {
         case "Yandex disk":
-          GetCurrentFolder(1, YandexListFolder);
+          GetCurrentFolder(1, null, null);
           //YandexListFolder(tmp.next().find('td:nth-child(2)').html());
           return false;
         case "Dropbox":
-          GetCurrentFolder(2, DropboxListFolder);
+          GetCurrentFolder(2, null, null);
           //DropboxListFolder(tmp.next().find('td:nth-child(2)').html());
           break;
         case "Box.com":
-          GetCurrentFolder(3, BoxListFolder);
+          GetCurrentFolder(3, null, null);
           //BoxGetFileId(tmp.next().find('td:nth-child(2)').html());
           break;
         }
@@ -226,17 +226,21 @@ $('#btn_upload_box').on('click', function() {
 });
 $("#files_table tbody").contextmenu(function (event) {
     var headers = $("#files_table .cloud_header");
+    var prev_buttons = $("#files_table .prev_folder");
     var is_header = false;
+    var i = 0;
     headers.each(function()
     {
       var tmp = $(this);
+      var btn = prev_buttons.eq(i);
         if (event.pageX >= tmp.offset().left && event.pageY>= tmp.offset().top &&
-            event.pageX <= tmp.offset().left + tmp.width() && event.pageY<= tmp.offset().top + tmp.height())
+            event.pageX <= tmp.offset().left + tmp.width() && event.pageY<= tmp.offset().top + tmp.height() + btn.height())
         {
           console.log("yes");
           is_header = true;
           return false;
         }
+      i++;
     });
     if (!is_header)
     {

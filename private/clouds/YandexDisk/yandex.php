@@ -74,10 +74,10 @@ function callback() {
 function yandex_list_folder($path, $token, $ajax)
 {
     if (isset($token)) {
-        if ($ajax && $path != get_current_folder(1, false))
-        {
-            $path = get_current_folder(1, false).$path;
-        }
+        //if ($ajax && $path != get_current_folder(1, false))
+        //{
+        //    $path = get_current_folder(1, false).$path;
+        //}
         $header = Array("Authorization: OAuth ".$token);
         $request_uri = "https://cloud-api.yandex.net/v1/disk/resources?path=".urlencode($path)."&limit=50";
         $ch = curl_init();

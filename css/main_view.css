@@ -57,6 +57,14 @@
   font-size: 20px;
   font-weight: bold;
 }
+.prev_folder {
+  text-align: left;
+}
+.prev_folder span {
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: normal;
+}
 #btn_add_cloud {
   width: 50%;
   margin-left: 25%;
@@ -80,7 +88,7 @@
   margin-left: 10px;
 }
 /*по наведению на ряд*/
-#files_table .file_row:hover, #clouds_table tr:hover, #added_clouds_table tr:hover {
+#files_table .file_row:hover, #files_table .prev_folder:hover, #clouds_table tr:hover, #added_clouds_table tr:hover {
   background-color: #e5f1f9;
 }
 /*чтобы не менялся цвет при наведении на выбранный ряд*/

@@ -18,7 +18,7 @@
     </head>
     <body>
         <ul>
-            <li><a href="main_view.php" class="btn btn-default">Просмотр файлов</a></li>
+            <!--<li><a href="main_view.php" class="btn btn-default">Просмотр файлов</a></li>-->
             <li><a href="login.php" class="btn btn-default">Войти</a></li>
             <li><a href="sign_up.php" class="btn btn-default">Зарегистрироваться</a></li>
         </ul>
