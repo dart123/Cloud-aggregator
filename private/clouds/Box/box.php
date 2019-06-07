@@ -21,7 +21,10 @@ case 'upload_file':
     box_upload_file();
     break;
 case 'get_file_id':
-    box_get_file_id($_GET['name']);
+    box_get_file_id($_GET['name'], $_GET['get_parent']);
+    break;
+case 'get_parent_folder_id':
+    box_list_folder(get_token(3), $_GET['path'], true);
     break;
 case 'delete_file':
     box_delete_file($_GET['filename'], $_GET['modified']);
@@ -79,18 +82,19 @@ function callback() {
             $query = http_build_query($query);
         
             // Формирование заголовков POST-запроса
-            $header = "Content-type: application/x-www-form-urlencoded";
+            $header = Array("Content-type: application/x-www-form-urlencoded");
         
-            // Выполнение POST-запроса и вывод результата
-            $opts = array('http' =>
-              array(
-              'method'  => 'POST',
-              'header'  => $header,
-              'content' => $query
-              ) 
-            );
-            $context = stream_context_create($opts);
-            $result = file_get_contents('https://api.box.com/oauth2/token', false, $context);
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://api.box.com/oauth2/token");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+            $result = curl_exec($ch);
+            curl_close($ch);
+            
             $result = json_decode($result);
             if (!get_token(3))
             {
@@ -137,25 +141,24 @@ function box_get_files($token, $path, $ajax)
 {
     $shortFiles = box_list_folder($token, $path);
     $fullFiles = array();
+    $header = Array("Authorization: Bearer ".$token);
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     foreach($shortFiles->entries as $value):
-        $header = Array("Authorization: Bearer ".$token);
-        $opts = array('http' =>
-            array(
-                'method'  => 'GET',
-                'header'  => $header,
-                'ignore_errors' => true,
-                //'content' => $query
-            ) 
-        );
-        $context = stream_context_create($opts);
         if ($value->type == "file")
             $request_uri = 'https://api.box.com/2.0/files/'.$value->id;
         if ($value->type == "folder")
             $request_uri = 'https://api.box.com/2.0/folders/'.$value->id;
-        $entry = file_get_contents($request_uri, false, $context);
+            
+        curl_setopt($ch, CURLOPT_URL, $request_uri);
+        $entry = curl_exec($ch);   
         $entry = json_decode($entry);
         array_push($fullFiles, $entry);
     endforeach;
+    curl_close($ch);
     if ($fullFiles)
     {
         delete_file(null, null, 3);
@@ -175,23 +178,37 @@ function box_get_files($token, $path, $ajax)
             return false;
     //return $fullFiles;
 }
-function box_list_folder($token, $path=0)
+function box_list_folder($token, $path=0, $get_parent = false)
 {
     if (isset($token)) {
         $header = Array("Authorization: Bearer ".$token);
-        $opts = array('http' =>
-            array(
-            'method'  => 'GET',
-            'header'  => $header,
-            'ignore_errors' => true,
-            //'content' => $query
-            ) 
-        );
-        $context = stream_context_create($opts);
+        //$opts = array('http' =>
+        //    array(
+        //    'method'  => 'GET',
+        //    'header'  => $header,
+        //    'ignore_errors' => true,
+        //    //'content' => $query
+        //    ) 
+        //);
+        //$context = stream_context_create($opts);
         $request_uri = "https://api.box.com/2.0/folders/$path";
-        $result = file_get_contents($request_uri, false, $context);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_URL, $request_uri);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        //$result = file_get_contents($request_uri, false, $context);
         $result = json_decode($result);
-        return $result->item_collection;
+        if (!$get_parent)
+            return $result->item_collection;
+        else
+        {
+            $parent = $result->parent;
+            $id = $parent->id;
+            echo $id;
+        }
     }
 }
 function box_download_file($filename)

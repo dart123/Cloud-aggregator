@@ -81,11 +81,18 @@ function BoxListFolder(path)
             },
     });
 }
-function BoxGetFileId(name)
+function BoxGetFileId(name, isGetParent)
 {
+    var ajax_url;
+    if (isGetParent)
+    {
+        ajax_url = "../private/clouds/Box/box.php?f=get_parent_folder_id&path=" + name;
+    }
+    else
+       ajax_url = "../private/clouds/Box/box.php?f=get_file_id&name=" + name; 
     $.ajax({
         type: "GET",
-        url: "../private/clouds/Box/box.php?f=get_file_id&name=" + name,
+        url: ajax_url,
         cache: false,
         success: function(id) {
             BoxListFolder(id);
@@ -147,8 +154,9 @@ function GetCurrentFolder(cloud, modifier, data)
                     if (!modifier)
                         BoxListFolder(arg);
                     if (modifier === "next")
-                        BoxGetFileId(data);
-                    //if (modifier === "prev")
+                        BoxGetFileId(data, false);
+                    if (modifier === "prev")
+                        BoxGetFileId(response, true);
                     break;
             }
 
@@ -209,7 +217,6 @@ function GetTokenClouds() {
             {
                 HandleTokenCloudsResponse(response);
             }
-            else alert("REPONSE FALSE");
 
         },
          error: function(data) {
@@ -220,14 +227,22 @@ function GetTokenClouds() {
 function ClearFilesPerCloud(rows, text)
 {
     var $current_cloud;
+    var $prev_btn;
     rows.each(function() {
         if ($(this).find('td').attr("class") == 'cloud_header')
         {
             if ($(this).find('span').text() == text)
             {
+                if ($(this).next().hasClass('prev_folder'))
+                {
+                    $prev_btn = $(this).next();
+                }
                 $current_cloud = $(this);
                 var $rows_to_delete = $current_cloud.nextAll();
-                //console.log($rows_to_delete);
+                if ($prev_btn)
+                {
+                    $rows_to_delete = $rows_to_delete.not($prev_btn);
+                }
                 $rows_to_delete.each(function() {
                     if ($(this).next().find('td').attr("class") == 'cloud_header')
                     {
@@ -239,14 +254,17 @@ function ClearFilesPerCloud(rows, text)
             }
         }
     });
-    return $current_cloud;
+    return $prev_btn;
 }
 function ClearHeader(headers, cloud_name)
 {
     headers.each(function() {
         if ($(this).text() === cloud_name)
         {
-            $(this).parent().parent().remove();
+            $header = $(this).parent().parent();
+            $prev_btn = $header.next();
+            $header.remove();
+            $prev_btn.remove();
         }
     });
 }
@@ -350,7 +368,7 @@ function GetFiles(cloud=0) {
                         "</tr>");
                 }
                 
-                var $current_cloud = ClearFilesPerCloud(shown_rows, text);
+                var $prev_btn = ClearFilesPerCloud(shown_rows, text);
                 files.forEach(function(entry) {
                         var img_path;
                         if (entry.isFolder == "1")
@@ -359,8 +377,8 @@ function GetFiles(cloud=0) {
                         }
                         else
                             img_path = "../media/file_icon.svg";
-                        if ($current_cloud)
-                            $current_cloud.after(
+                        if ($prev_btn)
+                            $prev_btn.after(
                             "<tr class='file_row'>" +
                                 "<td class='img_col'><img src='" + img_path + "'></td>" +
                                 "<td class='filename_col'>" + entry.filename + "</td>" +

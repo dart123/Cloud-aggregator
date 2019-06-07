@@ -47,18 +47,18 @@ function callback() {
         $query = http_build_query($query);
         
         // Формирование заголовков POST-запроса
-        $header = "Content-type: application/x-www-form-urlencoded";
+        $header = Array("Content-type: application/x-www-form-urlencoded");
         
-        // Выполнение POST-запроса и вывод результата
-        $opts = array('http' =>
-            array(
-            'method'  => 'POST',
-            'header'  => $header,
-            'content' => $query
-            ) 
-        );
-        $context = stream_context_create($opts);
-        $result = file_get_contents('https://api.dropboxapi.com/oauth2/token', false, $context);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.dropboxapi.com/oauth2/token");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        
         $result = json_decode($result);
         if (!get_token(2))
                 save_token($result->access_token, "", 2);
@@ -77,18 +77,7 @@ function callback() {
 }
 function dropbox_list_folder($path, $token, $ajax)
 {
-    debug_to_file("dropbox folder: $path");
-    if (isset($token)) {
-        //if ($ajax && $path != get_current_folder(2, false))
-        //{
-        //    if (get_current_folder(2, false) == "")
-        //    {
-        //        $path = "/".$path;
-        //    }
-        //    else
-        //        $path = get_current_folder(2, false).$path;
-        //}
-            
+    if (isset($token)) {       
         $query = array(
             'path' => $path == "/" ? "" : $path,
         );
@@ -96,17 +85,16 @@ function dropbox_list_folder($path, $token, $ajax)
         
         $header = Array("Authorization: Bearer ".$token, "Content-Type: application/json");
         
-        // Выполнение POST-запроса и вывод результата
-        $opts = array('http' =>
-            array(
-            'method'  => 'POST',
-            'header'  => $header,
-            'content' => $query,
-            'ignore_errors' => true,
-            ) 
-        );
-        $context = stream_context_create($opts);
-        $result = file_get_contents('https://api.dropboxapi.com/2/files/list_folder', false, $context);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.dropboxapi.com/2/files/list_folder");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        
         $result = json_decode($result);
         if ($result->entries)
         {
