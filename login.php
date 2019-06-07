@@ -42,13 +42,17 @@ require_once 'private/DBManager.php';
 <title>Login</title>
 <!--<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen"> -->
-<link rel="stylesheet" href="css/login.css" type="text/css" />
+<link rel="stylesheet" href="css/authorization_module.css" type="text/css" />
 </head>
 <body>
+ <ul class="nav">
+  <li><a href="sign_up.php">Зарегистрироваться</a></li>
+  <li><a href="index.php">Главная</a></li>
+ </ul>
+ 
+ <div class="signin-form">
 
-<div class="signin-form">
-
- <div class="container">
+ <div id="container_login">
       
         
         <?php
@@ -57,17 +61,17 @@ require_once 'private/DBManager.php';
   }
   ?>
         <form action="private/DBManager.php?f=check_login" method="post" id="login-form">
-           <h2 class="form-signin-heading">Войти</h2><hr />
-           <input type="email" id="email" class="form-control" placeholder="Email address" name="email" required />
-           <input type="password" class="form-control" placeholder="Password" name="password" required />
+           <h2 class="main_title">Войти</h2><hr />
            
+           <ul id="login_form">
+            <li><input type="email" id="email" class="form-control" placeholder="Email address" name="email" required /></li>
+            <li><input type="password" class="form-control" placeholder="Password" name="password" required /></li>
+           </ul>
+            
            <hr />
            
            <button type="submit" class="btn btn-default" name="btn-login" id="btn-login">Войти</button> 
         </form>
-        
-            <a href="sign_up.php" class="btn btn-default" style="float:right;">Зарегистрироваться</a>
-            <a href="index.php" class="btn btn-default" style="float:right; margin-right: 5px">Главная</a>
 
     </div>
     

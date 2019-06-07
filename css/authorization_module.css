@@ -1,0 +1,62 @@
+/*index.php*/
+.main_title {
+    text-align: center;
+}
+.nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.nav li {
+  float: right;
+}
+
+.nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+/************************************************/
+
+/*login.php*/
+#container_login {
+    text-align: center;
+}
+#login_form {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#login_form li {
+  margin: 10px 10px;
+}
+/************************************************************/
+
+.form-control {
+    width: 20em;
+}
+/*signup.php*/
+#container_signup {
+    text-align: center;
+}
+#signup_form {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#signup_form li {
+  margin: 10px 10px;
+}
+/************************************************************/
