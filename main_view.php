@@ -21,6 +21,7 @@
     </head>
     <body>
         <div class="container">
+            <div class="empty"></div>
             <div class="right-menu">
                 <ul class="nav">
                     <li><a id="logout_btn" onclick="LogOut();">Выйти</a></li>
