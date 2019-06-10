@@ -1,13 +1,43 @@
-.left-menu{
-  grid-area: left-menu;
+/*.top{
+  grid-area: top;
   border-style: solid;
-  text-align: left;
+  text-align: right;
+   padding-right: 5px;
+}*/
+.nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+.nav li:nth-child(1) {
+  float: right;
+}
+.nav li:nth-child(2) {
+  float: left;
+}
+
+.nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav li a:hover {
+  background-color: #111;
+}
+.nav li p {
+  color: white;
+  text-align: center;
+  /*padding: 14px 16px;*/
 }
 .right-menu {
   grid-area: right-menu;
   border-style: solid;
   text-align: right;
-  padding-right: 5px;
 }
 .side-bar {
   /*text-align: center;*/
@@ -38,6 +68,7 @@
 .footer {
   grid-area: footer;
   border-style: solid;
+  text-align: center;
 }
 
 .container {
@@ -45,7 +76,7 @@
   grid-template-columns: 25% 50% 25%;
   grid-template-rows: auto;
   grid-template-areas: 
-    "left-menu . right-menu"
+    ". . right-menu"
     "sidebar main main"
     "footer footer footer";
 }
@@ -75,8 +106,14 @@
   /*grid-column: 2 / span 10;*/
     border-collapse: collapse;
 }
-#files_table th, #files_table td, #clouds_table td {
+#clouds_table td {
     text-align: center;
+}
+#files_table .file_row, #files_table th{
+  text-align: left;
+}
+#files_table .prev_folder {
+  text-align: center;
 }
 #files_table, th, #files_table td, #clouds_table td {
   border: 1px solid black;
@@ -200,13 +237,15 @@ td > img {
   width: 30%; /* Could be more or less, depending on screen size */
 }
 .btn_close {
-  color: #aaa;
   float: right;
+}
+.btn_modal {
+  color: #aaa;
   font-size: 20px;
   font-weight: bold;
 }
-.btn_close:hover,
-.btn_close:focus {
+.btn_modal:hover,
+.btn_modal:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;

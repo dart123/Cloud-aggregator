@@ -21,47 +21,19 @@
     </head>
     <body>
         <div class="container">
-            <div class="left-menu">
-                <a href="index.php" id="main_view_link">Главная</a>
-            </div>
-            
             <div class="right-menu">
-                <?php if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1) ?>
-                    <p id="username"><?php echo get_current_username(get_current_user1()) ?></p>
-                <button class="btn_show_files" id="logout_btn" onclick="LogOut();">Выйти</button>
+                <ul class="nav">
+                    <li><a id="logout_btn" onclick="LogOut();">Выйти</a></li>
+                    <li> <?php if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1) ?>
+                    <p id="username"><?php echo get_current_username(get_current_user1()) ?></p></li>
+                </ul>
             </div>
             
             <div class="side-bar">
                  <table id="added_clouds_table">
                     <tbody>
-                        <!--<tr>
-                            <td>
-                                <img src="media/yandexdisk-icon.ico">
-                                <p>Yandex disk</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="media/dropbox-icon.svg">
-                                <p>Dropbox</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="media/box-icon.png">
-                                <p>Box.com</p>
-                            </td>
-                        </tr>-->
                     </tbody>
                  </table>
-                <!--<ul>
-                    <li>
-                        <img src="../media/yandexdisk-icon.ico">
-                        <p>Yandex disk</p>
-                    </li>
-                    <li><img src="../media/dropbox-icon.svg"></li>
-                    <li><img src="../media/box-icon.png"></li>
-                </ul>-->
                 <button class="btn_show_files" id="btn_add_cloud" onclick="openAddCloudModal();">Добавить облако</button>
             </div>
             
@@ -89,11 +61,11 @@
                 
                 <div class="upload-modal">
                     <div class="upload-modal-content">
-                       <button id="btn_add">Добавить</button>
-                       <button id="btn_upload_yandex">Загрузить на яндекс</button>
-                       <button id="btn_upload_dropbox">Загрузить на dropbox</button>
-                       <button id="btn_upload_box">Загрузить на box.com</button>
-                       <button class="btn_close" onclick="closeModal();">Отмена</button>
+                       <button id="btn_add" class="btn_modal">Добавить</button>
+                       <button id="btn_upload_yandex" class="btn_modal">Загрузить на яндекс</button>
+                       <button id="btn_upload_dropbox" class="btn_modal">Загрузить на dropbox</button>
+                       <button id="btn_upload_box" class="btn_modal">Загрузить на box.com</button>
+                       <button class="btn_modal btn_close" onclick="closeModal();">Отмена</button>
                         <input id="file_upload" type="file" name="name"/>
                         <label id="upload-status"/>
                     </div>
@@ -121,8 +93,8 @@
                                 </td>
                             </tr>
                         </table>
-                       <button id="btn_add" onclick="AuthorizeCloud();">Добавить</button>
-                       <button class="btn_close" onclick="closeAddCloudModal();">Отмена</button>
+                       <button id="btn_add" class="btn_modal" onclick="AuthorizeCloud();">Добавить</button>
+                       <button class="btn_modal btn_close" onclick="closeAddCloudModal();">Отмена</button>
                        <span id="add_cloud_warning">Выберите облачное хранилище!</span>
                     </div>
                 </div>

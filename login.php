@@ -12,28 +12,9 @@ require_once 'private/DBManager.php';
 // exit;
 //}
 //
-//if (isset($_POST['btn-login'])) {
-// 
-// $email = strip_tags($_POST['email']);
-// $password = strip_tags($_POST['password']);
-// 
-// $email = $conn->real_escape_string($email);
-// $password = $conn->real_escape_string($password);
-// 
-// $query = $conn->query("SELECT user_id, email, password FROM users WHERE email='$email'");
-// $row=$query->fetch_array();
-// 
-// $count = $query->num_rows; // if email/password are correct returns must be 1 row
-// 
-// if (password_verify($password, $row['password']) && $count==1) {
-//  $_SESSION['userSession'] = $row['user_id'];
-//    header("Location: main_view.php");
-//  }
  if (isset($_SESSION['session_id']) && $_SESSION['session_id'] == -1) {
   $msg = "<div class='alert alert-danger'>Неправильный email или пароль!</div>";
  }
-// $conn->close();
-//}
 ?>
 <!DOCTYPE html>
 <html>
