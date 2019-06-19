@@ -297,9 +297,6 @@ function box_upload_file()
                 ['attributes' => json_encode(array('name' => $file_to_upload['name'], 'parent' => array('id' => '0')))],
                 [$file_to_upload['name'] => file_get_contents($file_to_upload['tmp_name'], false)], $token);
             $result = curl_exec($ch);
-            $file = fopen(__DIR__."/response.json", 'w');
-            fwrite($file, $result);
-            fclose($file);
             curl_close($ch);
             echo 'success';
         }
@@ -344,7 +341,7 @@ function box_delete_file($filename, $modified)
                     }
                 }
                 else
-                    echo false;
+                    echo json_encode(false);
             }
     }
 }

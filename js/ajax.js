@@ -585,6 +585,7 @@ function UploadFile(file)
     //});
 }
 function YandexDiskUploadFile(form_data) {
+    uploadStatus(-1);
     $.ajax({
         type: "POST",
         url: "../private/clouds/YandexDisk/yandex.php?f=upload_file",
@@ -593,12 +594,12 @@ function YandexDiskUploadFile(form_data) {
         processData: false,
         contentType: false,
         success: function(response) {
-            //if (strcmp(response, 'success') == 0)
-            //{
-            //    uploadStatus(1);
-            //}
-            //else
-            //    uploadStatus(0);
+            if (response === 'success')
+            {
+                uploadStatus(1);
+            }
+            else
+                uploadStatus(0);
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
@@ -606,6 +607,7 @@ function YandexDiskUploadFile(form_data) {
     });
 }
 function DropboxUploadFile(form_data) {
+    uploadStatus(-1);
     $.ajax({
         type: "POST",
         url: "../private/clouds/Dropbox/dropbox.php?f=upload_file",
@@ -614,12 +616,12 @@ function DropboxUploadFile(form_data) {
         processData: false,
         contentType: false,
         success: function(response) {
-            //if (strcmp(response, 'success') == 0)
-            //{
-            //    uploadStatus(1);
-            //}
-            //else
-            //    uploadStatus(0);
+            if (response === 'success')
+            {
+                uploadStatus(1);
+            }
+            else
+                uploadStatus(0);
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));
@@ -627,6 +629,7 @@ function DropboxUploadFile(form_data) {
     });
 }
 function BoxUploadFile(form_data) {
+    uploadStatus(-1);
     $.ajax({
         type: "POST",
         url: "../private/clouds/Box/box.php?f=upload_file",
@@ -635,12 +638,12 @@ function BoxUploadFile(form_data) {
         processData: false,
         contentType: false,
         success: function(response) {
-            //if (strcmp(response, 'success') == 0)
-            //{
-            //    uploadStatus(1);
-            //}
-            //else
-            //    uploadStatus(0);
+            if (response.trim() === 'success')
+            {
+                uploadStatus(1);
+            }
+            else
+                uploadStatus(0);
         },
          error: function(data) {
                 alert("ERROR:" + JSON.stringify(data));

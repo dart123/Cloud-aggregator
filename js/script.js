@@ -185,14 +185,23 @@ function AuthorizeCloud() {
     $("#add_cloud_warning").css('display', 'inline');
 }
 function uploadStatus(num) {
-  //if (num == 1)
-  //  $("#upload-status").css('display', 'inline-block');
-  //  $("#upload-status").css('color', 'green');
-  //  $("#upload-status").text('Success!');
-  //if (num == 0)
-  //  $("#upload-status").css('display', 'inline-block');
-  //  $("#upload-status").css('color', 'red');
-  //  $("#upload-status").text('Failure!');
+  if (num == 1)
+  {
+    $("#upload-status").css('display', 'inline-block');
+    $("#upload-status").css('color', 'green');
+    $("#upload-status").text('Success!');
+  }
+  if (num == 0)
+  {
+    $("#upload-status").css('display', 'inline-block');
+    $("#upload-status").css('color', 'red');
+    $("#upload-status").text('Failure!');
+  }
+  if (num === -1)
+  {
+    $("#upload-status").css('display', 'none');
+    $("#upload-status").text('');
+  }
 }
 $(document).bind("mousedown", function(event) {
   if (!$(event.target).parents(".upload-modal-content").length > 0)
