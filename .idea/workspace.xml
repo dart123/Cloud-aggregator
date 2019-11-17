@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3ee0ae8b-fd43-41f6-a96e-cd1a4c628bcd" name="Default Changelist" comment="" />
+    <list default="true" id="3ee0ae8b-fd43-41f6-a96e-cd1a4c628bcd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixing the bug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/fixing the bug.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/main_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private/DBManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/private/DBManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private/clouds/Box/box.php" beforeDir="false" afterPath="$PROJECT_DIR$/private/clouds/Box/box.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private/clouds/Dropbox/dropbox.php" beforeDir="false" afterPath="$PROJECT_DIR$/private/clouds/Dropbox/dropbox.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php" beforeDir="false" afterPath="$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private/response.json" beforeDir="false" afterPath="$PROJECT_DIR$/private/response.json" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,73 +43,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/ajax.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="478" column="66" selection-start-line="478" selection-start-column="66" selection-end-line="478" selection-end-column="66" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="n#!!block;n#ClearHeader#0" />
-                <element signature="n#!!block;n#dbClickHandler#0" />
-                <element signature="n#!!block;n#IsInterfaceReady#0" />
-                <element signature="e#11282#11623#0" />
-                <marker date="1572685386861" expanded="true" signature="2:745" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/script.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="102" column="5" lean-forward="true" selection-start-line="102" selection-start-column="5" selection-end-line="102" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/private/DBManager.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5814">
-              <caret line="306" column="18" selection-start-line="306" selection-start-column="9" selection-end-line="306" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/private/clouds/Box/box.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/login.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="71" selection-start-line="14" selection-start-column="71" selection-end-line="14" selection-end-column="71" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sign_up.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-815">
-              <caret line="44" column="38" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
+            <state relative-caret-position="519">
+              <caret line="317" column="20" lean-forward="true" selection-start-line="317" selection-start-column="20" selection-end-line="317" selection-end-column="20" />
+              <folding>
+                <element signature="n#check_login#0;n#DBManager#0;n#!!top" />
+                <element signature="n#create_session#0;n#DBManager#0;n#!!top" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,8 +59,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/private/clouds/Dropbox/dropbox.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="50" selection-start-line="7" selection-start-column="50" selection-end-line="7" selection-end-column="50" />
+            <state relative-caret-position="2871">
+              <caret line="231" column="60" selection-start-line="231" selection-start-column="60" selection-end-line="231" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ajax.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="229" column="16" selection-start-line="229" selection-start-column="4" selection-end-line="229" selection-end-column="16" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="n#!!block;n#ClearHeader#0" />
+                <element signature="n#!!block;n#dbClickHandler#0" />
+                <marker date="1572685386861" expanded="true" signature="2:745" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/script.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="281">
+              <caret line="93" column="25" lean-forward="true" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -116,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2204">
-              <caret line="116" column="40" selection-start-line="116" selection-start-column="34" selection-end-line="116" selection-end-column="40" />
+            <state relative-caret-position="95">
+              <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -126,52 +102,55 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$_SESSION['session_id']</find>
-      <find>dropboxlistfolder</find>
-      <find>getcurre</find>
-      <find>document.ready</find>
-      <find>document</find>
-      <find>jquery</find>
-      <find>window.interface_ready</find>
-      <find>clearfilespercloud</find>
-      <find>deletec</find>
-      <find>delete</find>
-      <find>shown_rows</find>
-      <find>prev</find>
-      <find>dbclickhan</find>
-      <find>getcurrentfolder</find>
-      <find>listfolder</find>
-      <find>clearfiles</find>
-      <find>interface</find>
-      <find>get_files</find>
-      <find>gettoken</find>
-      <find>get_token</find>
-      <find>handletoken</find>
-      <find>showfilesper</find>
-      <find>ready</find>
-      <find>dbclickhand</find>
-      <find>getcurrent</find>
       <find>yandexlist</find>
       <find>dbclick</find>
       <find>getfiles</find>
       <find>clearfilesper</find>
       <find>text</find>
+      <find>save_file_signatures</find>
+      <find>get</find>
+      <find>save_file</find>
+      <find>save_fi</find>
+      <find>get_current_username</find>
+      <find>save_token</find>
+      <find>update_token</find>
+      <find>get_file_cloud</find>
+      <find>is_folder</find>
+      <find>dbmanager</find>
+      <find>delete_file</find>
+      <find>full</find>
+      <find>fullFiles</find>
+      <find>get_current_folder</find>
+      <find>logout</find>
+      <find>get_current</find>
+      <find>gettokenclouds</find>
+      <find>get_token_clouds</find>
+      <find>get_current_user1</find>
+      <find>create_session</find>
+      <find>create_settings</find>
+      <find>create_ses</find>
+      <find>fix_datetime</find>
+      <find>get_token</find>
+      <find>showfilesper</find>
     </findStrings>
     <replaceStrings>
       <replace />
     </replaceStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php" />
-        <option value="$PROJECT_DIR$/main_view.php" />
-        <option value="$PROJECT_DIR$/private/clouds/Dropbox/dropbox.php" />
-        <option value="$PROJECT_DIR$/private/clouds/Box/box.php" />
-        <option value="$PROJECT_DIR$/private/DBManager.php" />
         <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/js/script.js" />
         <option value="$PROJECT_DIR$/js/ajax.js" />
+        <option value="$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php" />
+        <option value="$PROJECT_DIR$/private/clouds/Dropbox/dropbox.php" />
+        <option value="$PROJECT_DIR$/private/clouds/Box/box.php" />
+        <option value="$PROJECT_DIR$/main_view.php" />
+        <option value="$PROJECT_DIR$/private/DBManager.php" />
       </list>
     </option>
   </component>
@@ -186,6 +165,7 @@
     <option name="width" value="1391" />
     <option name="height" value="791" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -232,6 +212,13 @@
               <item name="cloud_aggregator" type="462c0819:PsiDirectoryNode" />
               <item name="private" type="462c0819:PsiDirectoryNode" />
               <item name="clouds" type="462c0819:PsiDirectoryNode" />
+              <item name="Dropbox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud_aggregator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud_aggregator" type="462c0819:PsiDirectoryNode" />
+              <item name="private" type="462c0819:PsiDirectoryNode" />
+              <item name="clouds" type="462c0819:PsiDirectoryNode" />
               <item name="YandexDisk" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -242,11 +229,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.PHP" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -279,11 +268,14 @@
       <workItem from="1572369186067" duration="4777000" />
       <workItem from="1572631277417" duration="1542000" />
       <workItem from="1572681381118" duration="4342000" />
+      <workItem from="1573111646954" duration="603000" />
+      <workItem from="1573125019751" duration="11154000" />
+      <workItem from="1573416999366" duration="3278000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50329000" />
+    <option name="totallyTimeSpent" value="65364000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
@@ -306,23 +298,11 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info active="true" anchor="right" content_ui="combo" id="Project" order="4" sideWeight="0.4994463" visible="true" weight="0.1793027" />
+      <window_info active="true" anchor="right" content_ui="combo" id="Project" order="4" sideWeight="0.4994463" visible="true" weight="0.18594356" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/js/ajax.js</url>
-          <line>345</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/9788f94a-7407-4cba-895c-2833a4909fb4/console.sql">
@@ -346,6 +326,20 @@
     <entry file="file://$PROJECT_DIR$/vendor/autoload.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="14" column="10" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/private/clouds/Box/box.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="337" column="35" selection-start-line="337" selection-start-column="35" selection-end-line="337" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -353,74 +347,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/private/DBManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5814">
-          <caret line="306" column="18" selection-start-line="306" selection-start-column="9" selection-end-line="306" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/private/clouds/Box/box.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="71" selection-start-line="14" selection-start-column="71" selection-end-line="14" selection-end-column="71" />
+        <state relative-caret-position="-332">
+          <caret line="5" column="13" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sign_up.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+        <state relative-caret-position="399">
+          <caret line="21" column="8" lean-forward="true" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/private/clouds/Dropbox/dropbox.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="50" selection-start-line="7" selection-start-column="50" selection-end-line="7" selection-end-column="50" />
+        <state relative-caret-position="2871">
+          <caret line="231" column="60" selection-start-line="231" selection-start-column="60" selection-end-line="231" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/private/DBManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="317" column="20" lean-forward="true" selection-start-line="317" selection-start-column="20" selection-end-line="317" selection-end-column="20" />
+          <folding>
+            <element signature="n#check_login#0;n#DBManager#0;n#!!top" />
+            <element signature="n#create_session#0;n#DBManager#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main_view.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2204">
-          <caret line="116" column="40" selection-start-line="116" selection-start-column="34" selection-end-line="116" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/private/clouds/YandexDisk/yandex.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-815">
-          <caret line="44" column="38" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="102" column="5" lean-forward="true" selection-start-line="102" selection-start-column="5" selection-end-line="102" selection-end-column="5" />
+        <state relative-caret-position="95">
+          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ajax.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="478" column="66" selection-start-line="478" selection-start-column="66" selection-end-line="478" selection-end-column="66" />
+        <state relative-caret-position="272">
+          <caret line="229" column="16" selection-start-line="229" selection-start-column="4" selection-end-line="229" selection-end-column="16" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#ClearHeader#0" />
             <element signature="n#!!block;n#dbClickHandler#0" />
-            <element signature="n#!!block;n#IsInterfaceReady#0" />
-            <element signature="e#11282#11623#0" />
             <marker date="1572685386861" expanded="true" signature="2:745" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="93" column="25" lean-forward="true" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
         </state>
       </provider>
     </entry>

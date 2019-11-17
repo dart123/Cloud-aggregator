@@ -23,7 +23,7 @@ case 'delete_file':
     dropbox_delete_file($_GET['filename'], $_GET['modified']);
     break;
 case 'list_folder':
-    dropbox_list_folder($_GET['path'], get_token(2), true);
+    dropbox_list_folder($_GET['path'], DBManager::get_token(2), true);
     break;
 }
     
@@ -60,11 +60,11 @@ function callback() {
         curl_close($ch);
         
         $result = json_decode($result);
-        if (!get_token(2))
-                save_token($result->access_token, "", 2);
+        if (!DBManager::get_token(2))
+            DBManager::save_token($result->access_token, "", 2);
             else
-                if (get_token(2) != $result->access_token)
-                    update_token($result->access_token, 2);
+                if (DBManager::get_token(2) != $result->access_token)
+                    DBManager::update_token($result->access_token, 2);
         /*$files = */dropbox_list_folder("", $result->access_token, false);
         //if ($files)
         //{
@@ -98,11 +98,11 @@ function dropbox_list_folder($path, $token, $ajax)
         $result = json_decode($result);
         if ($result->entries)
         {
-            delete_file(null, null, 2);
-            save_file_signatures($result->entries, "dropbox");
+            DBManager::delete_file(null, null, 2);
+            DBManager::save_file_signatures($result->entries, "dropbox");
             if ($ajax)
             {
-                update_token(null, 2, $path); //обновить текущую папку
+                DBManager::update_token(null, 2, $path); //обновить текущую папку
                 echo "true";
             }
             else
@@ -123,9 +123,9 @@ function dropbox_list_folder($path, $token, $ajax)
 function dropbox_download_file($filename)
 {
     global $current_folder;
-    $token = get_token(2); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
+    $token = DBManager::get_token(2); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = dropbox_list_folder(get_current_folder(2, false), $token, false);
+            $folder_contents = dropbox_list_folder(DBManager::get_current_folder(2, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -171,7 +171,7 @@ function dropbox_upload_file()
     if (sizeof($_FILES) > 0)
     {
         $file_to_upload = $_FILES['file'];
-        $token = get_token(2); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
+        $token = DBManager::get_token(2); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
         if (isset($token))
         {
             $header = Array("Authorization: Bearer ".$token, "Dropbox-API-Arg: ". json_encode(array('path' => "/".$file_to_upload['name'],
@@ -194,9 +194,9 @@ function dropbox_upload_file()
 function dropbox_delete_file($filename, $modified)
 {
     global $current_folder;
-    $token = get_token(2); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
+    $token = DBManager::get_token(2); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = dropbox_list_folder(get_current_folder(2, false), $token, false);
+            $folder_contents = dropbox_list_folder(DBManager::get_current_folder(2, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -228,7 +228,7 @@ function dropbox_delete_file($filename, $modified)
                     // Check the HTTP Status code
                     switch ($httpCode) {
                         case 200:
-                            delete_file($filename, $modified);
+                            DBManager::delete_file($filename, $modified);
                             $error_status = "200: Successful.";
                             echo json_encode(array($error_status));
                             break;

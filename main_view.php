@@ -3,6 +3,7 @@
     require_once './private/DBManager.php';
     session_start();
     if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1)
+        DBManager::get_token(0, true);
         $script = "<script type=\"text/javascript\">
             GetTokenClouds();
         </script>";
@@ -25,7 +26,7 @@
                 <ul class="nav">
                     <li><a id="logout_btn" onclick="LogOut();">Выйти</a></li>
                     <li> <?php if (isset($_SESSION['session_id']) && $_SESSION['session_id']!=-1) ?>
-                    <p id="username"><?php echo get_current_username(get_current_user1()) ?></p></li>
+                    <p id="username"><?php echo DBManager::get_current_username(DBManager::get_current_user1()) ?></p></li>
                 </ul>
             </div>
             

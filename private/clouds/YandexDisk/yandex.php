@@ -14,7 +14,7 @@ case 'yandex_auth':
     yandex_auth();
     break;
 case 'list_folder':
-    yandex_list_folder($_GET['path'], get_token(1), true);
+    yandex_list_folder($_GET['path'], DBManager::get_token(1), true);
     break;
 case 'download_file':
     yandex_download_file($_GET['filename']);
@@ -60,11 +60,11 @@ function callback() {
             $result = curl_exec($ch);
             curl_close($ch);
             $result = json_decode($result);
-            if (!get_token(1))
-                save_token($result->access_token, "/", 1);
+            if (!DBManager::get_token(1))
+                DBManager::save_token($result->access_token, "/", 1);
             else
-                if (get_token(1) != $result->access_token)
-                    update_token($result->access_token, 1);
+                if (DBManager::get_token(1) != $result->access_token)
+                    DBManager::update_token($result->access_token, 1);
             yandex_list_folder("/", $result->access_token, false);
             $redirect_url = "../../../main_view.php";
             header('Location: ' . filter_var($redirect_url, FILTER_SANITIZE_URL));
@@ -90,11 +90,11 @@ function yandex_list_folder($path, $token, $ajax)
         $embedded = $result->_embedded;
         if ($embedded->items)
         {
-            delete_file(null, null, 1);
-            save_file_signatures($embedded->items, "yandex");
+            DBManager::delete_file(null, null, 1);
+            DBManager::save_file_signatures($embedded->items, "yandex");
             if ($ajax)
             {
-                update_token(null, 1, $path); //обновить текущую папку
+                DBManager::update_token(null, 1, $path); //обновить текущую папку
                 echo "true";
             }
             else
@@ -110,9 +110,9 @@ function yandex_list_folder($path, $token, $ajax)
 function yandex_download_file($filename)
 {
     global $current_folder;
-    $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
+    $token = DBManager::get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = yandex_list_folder(get_current_folder(1, false), $token, false);
+            $folder_contents = yandex_list_folder(DBManager::get_current_folder(1, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -152,7 +152,7 @@ function yandex_upload_file()
     if (sizeof($_FILES) > 0)
     {
         $file_to_upload = $_FILES['file'];
-        $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
+        $token = DBManager::get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
         if (isset($token))
         {
             $header = array("Authorization: OAuth ".$token);
@@ -178,9 +178,9 @@ function yandex_upload_file()
 function yandex_delete_file($filename, $modified)
 {
     global $current_folder;
-    $token = get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
+    $token = DBManager::get_token(1); //1й параметр - облако (1 - яндекс), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = yandex_list_folder(get_current_folder(1, false), $token, false);
+            $folder_contents = yandex_list_folder(DBManager::get_current_folder(1, false), $token, false);
             if ($folder_contents)
             {
                 $file_found = false;
@@ -208,12 +208,12 @@ function yandex_delete_file($filename, $modified)
                     // Check the HTTP Status code
                     switch ($httpCode) {
                         case 204:
-                            delete_file($filename, $modified);
+                            DBManager::delete_file($filename, $modified);
                             $error_status = "204: No content. File or empty folder, deleted.";
                             echo json_encode(array($error_status));
                             break;
                         case 202:
-                            delete_file($filename, $modified);
+                            DBManager::delete_file($filename, $modified);
                             $error_status = "202. Accepted. Non-empty folder delete started.";
                             echo json_encode(array($error_status, $result->href));
                             break;
@@ -230,7 +230,7 @@ function yandex_delete_file($filename, $modified)
 }
 function yandex_get_operation_status($url)
 {
-    $token = get_token(1);
+    $token = DBManager::get_token(1);
     if (isset($token)) {
         $header = Array("Authorization: OAuth ".$token);
         $ch = curl_init();

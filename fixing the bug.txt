@@ -1,5 +1,0 @@
-On every call to "getfiles" we need to set event handlers ONLY if an area in files_table has been updated, otherwise DONT set the event handlers.
-Right now I set event handlers only one time when the page loads lol which is not how it should be, but i also have to fix the bug
-
-!!!!!!!!!
-Figure out how to properly clear files on cloud updates and how to set dbclick handler on PREV button ONLY ONCE

@@ -24,13 +24,13 @@ case 'get_file_id':
     box_get_file_id($_GET['name'], $_GET['get_parent']);
     break;
 case 'get_parent_folder_id':
-    box_list_folder(get_token(3), $_GET['path'], true);
+    box_list_folder(DBManager::get_token(3), $_GET['path'], true);
     break;
 case 'delete_file':
     box_delete_file($_GET['filename'], $_GET['modified']);
     break;
 case 'list_folder':
-    box_get_files(get_token(3), $_GET['path'],  true);
+    box_get_files(DBManager::get_token(3), $_GET['path'],  true);
     break;
 }
 function buildMultiPartRequest($ch, $boundary, $fields, $files, $token) {
@@ -96,9 +96,9 @@ function callback() {
             curl_close($ch);
             
             $result = json_decode($result);
-            if (!get_token(3))
+            if (!DBManager::get_token(3))
             {
-                $tmp = save_token($result->access_token, "0", 3);
+                $tmp = DBManager::save_token($result->access_token, "0", 3);
                 if (!$tmp) //если не сохранился токен
                 {
                     $redirect_url = "../../../main_view.php";
@@ -106,8 +106,8 @@ function callback() {
                 }
             }
             else
-                if (get_token(3) != $result->access_token)
-                    update_token($result->access_token, 3);
+                if (DBManager::get_token(3) != $result->access_token)
+                    DBManager::update_token($result->access_token, 3);
                 
             /*$files = */box_get_files($result->access_token, 0, false);
             //if ($files)
@@ -121,7 +121,7 @@ function callback() {
 }
 function box_get_file_id($name)
 {
-    $token = get_token(3);
+    $token = DBManager::get_token(3);
     if (isset($token))
     {
         $header = Array("Authorization: Bearer ".$token);
@@ -161,11 +161,11 @@ function box_get_files($token, $path, $ajax)
     curl_close($ch);
     if ($fullFiles)
     {
-        delete_file(null, null, 3);
-        save_file_signatures($fullFiles, "box");
+        DBManager::delete_file(null, null, 3);
+        DBManager::save_file_signatures($fullFiles, "box");
         if ($ajax)
         {
-            update_token(null, 3, $path); //обновить текущую папку
+            DBManager::update_token(null, 3, $path); //обновить текущую папку
             echo "true";
         }
         else
@@ -214,9 +214,9 @@ function box_list_folder($token, $path=0, $get_parent = false)
 function box_download_file($filename)
 {
     global $current_folder;
-    $token = get_token(3); //1й параметр - облако (3 - box), 2й параметр - пользователь
+    $token = DBManager::get_token(3); //1й параметр - облако (3 - box), 2й параметр - пользователь
     if (isset($token)) {
-            $folder_contents = box_list_folder($token, get_current_folder(3, false));
+            $folder_contents = box_list_folder($token, DBManager::get_current_folder(3, false));
             if ($folder_contents)
             {
                 $file_found = false;
@@ -260,7 +260,7 @@ function box_upload_file()
     if (sizeof($_FILES) > 0)
     {
         $file_to_upload = $_FILES['file'];
-        $token = get_token(3); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
+        $token = DBManager::get_token(3); //1й параметр - облако (2 - dropbox), 2й параметр - пользователь
         if (isset($token))
         {
             //$header = Array("Authorization: Bearer ".$token, "Content-Type: multipart/form-data");
@@ -305,9 +305,9 @@ function box_upload_file()
 function box_delete_file($filename, $modified)
 {
     global $current_folder;
-    $token = get_token(3); //1й параметр - облако (3 - box)
+    $token = DBManager::get_token(3); //1й параметр - облако (3 - box)
     if (isset($token)) {
-            $folder_contents = box_list_folder($token, get_current_folder(3, false));
+            $folder_contents = box_list_folder($token, DBManager::get_current_folder(3, false));
             if ($folder_contents)
             {
                 $file_found = false;
@@ -335,7 +335,7 @@ function box_delete_file($filename, $modified)
                     curl_close($ch);
                     if ($httpCode == 204)
                     {
-                        delete_file($filename, $modified);
+                        DBManager::delete_file($filename, $modified);
                         $error_status = "204: success";
                         echo json_encode(array($error_status));
                     }
